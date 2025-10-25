@@ -1,4 +1,9 @@
-import { ImageGalleryItem, LatLng, SelectBoxOption } from "@/types/types";
+import {
+  CheckboxValue,
+  ImageGalleryItem,
+  LatLng,
+  SelectBoxOption,
+} from "@/types/types";
 import { CustomIconProps } from "@/components/CustomIcon";
 import React, { Dispatch, SetStateAction } from "react";
 
@@ -180,3 +185,17 @@ export type EditableEateryNewValue =
   | (string | number | object)[]
   | Record<string, any>
   | Record<string, any>[];
+
+export type EateryFilterItem = CheckboxValue<string>;
+
+export type EateryFilterKeys = "categories" | "venueTypes" | "features";
+
+export type EateryFilters = {
+  [T in EateryFilterKeys]: EateryFilterItem[];
+};
+
+export type AppliedEateryFilters = {
+  category: string[];
+  venueType: string[];
+  feature: string[];
+};

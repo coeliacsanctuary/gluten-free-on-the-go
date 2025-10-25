@@ -1,4 +1,5 @@
 import { ValueType } from "react-native-dropdown-picker";
+import React from "react";
 
 export type LatLng = {
   lat: number;
@@ -9,7 +10,7 @@ export type HttpResponse<T> = {
   data: T;
 };
 
-export type PaginatedResponse<T> = HttpResponse<{
+export type PaginatedCollection<T> = {
   data: T[];
   current_page: number;
   from: number;
@@ -17,7 +18,9 @@ export type PaginatedResponse<T> = HttpResponse<{
   per_page: number;
   to: number;
   total: number;
-}>;
+};
+
+export type PaginatedResponse<T> = HttpResponse<PaginatedCollection<T>>;
 
 export type ImageGalleryItem = {
   id: number;
@@ -28,4 +31,13 @@ export type ImageGalleryItem = {
 export type SelectBoxOption<T extends ValueType = number, L = string> = {
   value: T;
   label: L;
+};
+
+export type CheckboxValue<T = number, L extends React.Key = string> = {
+  value: T;
+  label: L;
+  checked: boolean;
+  disabled?: boolean;
+  groupBy?: string;
+  originalIndex?: number;
 };

@@ -54,6 +54,8 @@ export function ScreenHeader({
           </Pressable>
         )}
         <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
             color: Colors.text,
             fontSize: 18,

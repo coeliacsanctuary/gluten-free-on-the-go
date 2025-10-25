@@ -16,6 +16,7 @@ export type ModalProps = Omit<DefaultModalProps, "visible"> & {
   open?: boolean;
   onClose: () => void;
   side?: "left" | "right";
+  backgroundColor?: string;
 };
 
 export default function Sidebar({
@@ -24,6 +25,7 @@ export default function Sidebar({
   open = false,
   onClose,
   side = "right",
+  backgroundColor = Colors.primary,
   ...rest
 }: ModalProps) {
   const insets = useSafeAreaInsets();
@@ -84,7 +86,7 @@ export default function Sidebar({
               top: insets.top,
               bottom: 0,
               width: "80%",
-              backgroundColor: Colors.primary,
+              backgroundColor: backgroundColor,
               transform: [{ translateX: translate }],
               shadowColor: "#000",
               shadowOffset: { width: 0, height: 2 },

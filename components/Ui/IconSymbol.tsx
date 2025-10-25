@@ -45,6 +45,7 @@ const MAPPING = {
   flag: "outlined-flag",
   "flag.fill": "flag",
   "map.fill": "map",
+  magnifyingglass: "search",
 } as IconMapping;
 
 /**

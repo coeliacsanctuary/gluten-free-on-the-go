@@ -5,13 +5,13 @@ import React from "react";
 export type LabelProps = {
   label: string;
   required?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function Label({
   label,
   required = false,
-  children,
+  children = undefined,
 }: LabelProps) {
   return (
     <View style={{ gap: 1 }}>

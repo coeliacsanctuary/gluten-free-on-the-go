@@ -1,7 +1,7 @@
 import { Card } from "@/components/Card";
 import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import NearbyPlaces from "@/components/Screens/NearbyPlaces";
+import NearbyPlaces from "@/screens/NearbyPlaces";
 import { Text, View } from "react-native";
 
 export default function NearbyEateries() {

@@ -22,18 +22,42 @@ export default function EateryInfoCard({
         Here's what we know about {eateryName}
       </Text>
 
-      <RenderHtml
-        contentWidth={width}
-        source={{ html: eatery.info }}
-        tagsStyles={{
-          body: {
-            lineHeight: 20,
-          },
-          strong: {
-            fontWeight: "600",
-          },
-        }}
-      />
+      {eatery.type === "Attraction" ? (
+        <View style={{ gap: 8 }}>
+          {eatery.restaurants.map((restuarant) => (
+            <View>
+              {restuarant.name !== "" && (
+                <Text style={{ fontWeight: 600 }}>{restuarant.name}</Text>
+              )}
+              <RenderHtml
+                contentWidth={width}
+                source={{ html: restuarant.info }}
+                tagsStyles={{
+                  body: {
+                    lineHeight: 20,
+                  },
+                  strong: {
+                    fontWeight: "600",
+                  },
+                }}
+              />
+            </View>
+          ))}
+        </View>
+      ) : (
+        <RenderHtml
+          contentWidth={width}
+          source={{ html: eatery.info }}
+          tagsStyles={{
+            body: {
+              lineHeight: 20,
+            },
+            strong: {
+              fontWeight: "600",
+            },
+          }}
+        />
+      )}
 
       {eatery.features.length > 0 && (
         <View style={{ flexDirection: "row", gap: 8 }}>

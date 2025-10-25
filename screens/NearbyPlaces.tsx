@@ -1,13 +1,12 @@
 import { ReactElement, useEffect, useState } from "react";
 import { LoaderCard } from "@/components/LoaderCard";
-import { ThemedText } from "@/components/ThemedText";
 import { Card } from "@/components/Card";
 import { LatLng } from "@/types/types";
 import { NearbyEatery } from "@/types/eateries";
 import * as Location from "expo-location";
 import { getNearbyPlacesRequest } from "@/requests/nearbyPlaces";
 import EateryCard from "@/components/Eateries/EateryCard";
-import { ActivityIndicator, FlatList } from "react-native";
+import { ActivityIndicator, FlatList, Text } from "react-native";
 import { Colors } from "@/constants/Colors";
 
 export default function NearbyPlaces({
@@ -87,13 +86,17 @@ export default function NearbyPlaces({
 
           {loading && (
             <LoaderCard>
-              <ThemedText>Looking for places near you...</ThemedText>
+              <Text style={{ fontSize: 16, paddingHorizontal: 16 }}>
+                Looking for places near you...
+              </Text>
             </LoaderCard>
           )}
 
           {error && (
             <Card>
-              <ThemedText>{error}</ThemedText>
+              <Text style={{ fontSize: 16, paddingHorizontal: 16 }}>
+                {error}
+              </Text>
             </Card>
           )}
         </>
@@ -109,7 +112,7 @@ export default function NearbyPlaces({
       renderItem={({ item }) => <EateryCard basePath="nearby" eatery={item} />}
       keyExtractor={(item) => item.key.toString()}
       onEndReached={() => updateList()}
-      onEndReachedThreshold={0.9}
+      onEndReachedThreshold={0.2}
       ListFooterComponent={
         hasMorePages && !loading ? (
           <ActivityIndicator

@@ -7,7 +7,7 @@ import { Link } from "expo-router";
 
 export type EateryCardProps = {
   eatery: SimpleEatery;
-  basePath: "nearby";
+  basePath: "nearby" | "explore";
 };
 
 export default function EateryCard({ eatery, basePath }: EateryCardProps) {
@@ -58,7 +58,7 @@ export default function EateryCard({ eatery, basePath }: EateryCardProps) {
           <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
             <Pill>{eatery.venueType}</Pill>
 
-            <Pill>{eatery.cuisine}</Pill>
+            {eatery.type === "Eatery" && <Pill>{eatery.cuisine}</Pill>}
 
             {eatery.average_expense && (
               <Pill>
