@@ -5,7 +5,11 @@ import { Dimensions, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { LatLng } from "@/types/types";
 import { LoaderCard } from "@/components/LoaderCard";
-import { AppliedEateryFilters, EateryFilters } from "@/types/eateries";
+import {
+  AppliedEateryFilters,
+  BrowseEateryResource,
+  EateryFilters,
+} from "@/types/eateries";
 import * as Location from "expo-location";
 import { postGeocodeRequest } from "@/requests/geocode";
 import TexInputField from "@/components/Form/TextInputField";
@@ -14,10 +18,17 @@ import { IconSymbol } from "@/components/Ui/IconSymbol";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ExploreEateriesFilterSidebar from "@/sidebars/ExploreEateriesFilterSidebar";
 import { getEateryFilters } from "@/requests/eateryFilters";
+import { getBrowseRequest } from "@/requests/browseEateries";
+import { AxiosError } from "axios";
 
 export type MapScreenProps = {
   initialSearch: string;
   initialAppliedFilters?: AppliedEateryFilters;
+};
+
+type MapMarkers = BrowseEateryResource & {
+  loaded: boolean;
+  new: boolean;
 };
 
 export default function Map({
@@ -49,10 +60,12 @@ export default function Map({
   const [filters, setFilters] = useState<EateryFilters>();
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [places, setPlaces] = useState<any[]>([]);
   const [latLng, setLatLng] = useState<LatLng>(initialLatLng);
+  const [range, setRange] = useState<number>(5);
 
   const [triggerSearch, setTriggerSearch] = useState<boolean>(false);
+
+  const [markers, setMarkers] = useState<MapMarkers[]>([]);
 
   const handleSearch = () => {
     if (search.length < 3) {
@@ -74,6 +87,7 @@ export default function Map({
       return;
     }
 
+    console.log("getting places from trigger");
     getPlaces();
 
     setTriggerSearch(false);
@@ -90,18 +104,62 @@ export default function Map({
       500,
     );
 
-    // loadEateries();
+    setTriggerSearch(true);
   };
 
   const getPlaces = () => {
-    //
+    getBrowseRequest(latLng, range, appliedFilters)
+      .then((response) => {
+        prepareMarkers(response.data.data);
+      })
+      .catch(() => {
+        //
+      });
   };
 
-  const moveMap = () => {
-    //
+  const prepareMarkers = (eateries: BrowseEateryResource[]) => {
+    const newMarkers: MapMarkers[] = eateries.map((eatery) => ({
+      ...eatery,
+      loaded: true,
+      new: true,
+    }));
+
+    const currentMarkers: MapMarkers[] = markers.map((marker) => ({
+      ...marker,
+      loaded: false,
+    }));
+
+    newMarkers.forEach((newMarker) => {
+      const existingMarker = currentMarkers.find(
+        (marker) => marker.id === newMarker.id,
+      );
+
+      if (existingMarker) {
+        const existingIndex = currentMarkers.indexOf(existingMarker);
+
+        currentMarkers[existingIndex].loaded = true;
+
+        return;
+      }
+
+      currentMarkers.push(newMarker);
+    });
+
+    setMarkers(currentMarkers.filter((marker) => marker.loaded));
   };
 
-  const openDetails = (eatery: any) => {
+  const moveMap = (region: Region) => {
+    setLatLng({
+      lat: region.latitude,
+      lng: region.longitude,
+    });
+
+    setRange((region.latitudeDelta * 111) / 1.609);
+
+    setTriggerSearch(true);
+  };
+
+  const openDetails = (marker: MapMarkers) => {
     //
   };
 
@@ -126,12 +184,6 @@ export default function Map({
       return;
     }
 
-    if (places.length === 0) {
-      return;
-    }
-
-    setLoading(true);
-    setPlaces([]);
     setTriggerSearch(true);
   }, [showFilterSidebar]);
 
@@ -191,6 +243,14 @@ export default function Map({
       setFilters(response.data.data);
     });
   }, [filters]);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    setTriggerSearch(true);
+  }, [loading]);
 
   const insets = useSafeAreaInsets();
 
@@ -259,17 +319,19 @@ export default function Map({
               height: "100%",
             }}
             clusterColor={Colors.secondary}
+            radius={200}
+            maxZoom={20}
           >
-            {places.map((eatery) => (
+            {markers.map((marker) => (
               <Marker
-                key={eatery.id + (eatery.branch_id ? eatery.branch_id : 0)}
+                key={marker.key}
                 coordinate={{
-                  latitude: eatery.lat,
-                  longitude: eatery.lng,
+                  latitude: marker.location.lat,
+                  longitude: marker.location.lng,
                 }}
-                pinColor={Colors.primary}
+                pinColor={marker.color}
                 stopPropagation={false}
-                onPress={() => openDetails(eatery)}
+                onPress={() => openDetails(marker)}
               />
             ))}
           </MapView>

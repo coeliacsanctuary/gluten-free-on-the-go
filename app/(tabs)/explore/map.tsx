@@ -12,7 +12,7 @@ export default function BrowseEateries() {
   const search = params.search ? params.search : "";
   const appliedFilters = params.appliedFilters
     ? JSON.parse(params.appliedFilters)
-    : {};
+    : undefined;
 
   return (
     <ScreenWrapper>

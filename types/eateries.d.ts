@@ -199,3 +199,11 @@ export type AppliedEateryFilters = {
   venueType: string[];
   feature: string[];
 };
+
+export type BrowseEateryResource = {
+  id: number;
+  key: string;
+  isNationwideBranch: boolean;
+  location: LatLng;
+  color: string;
+};
