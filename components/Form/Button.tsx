@@ -5,6 +5,7 @@ import {
   ViewProps,
   StyleSheet,
   ActivityIndicator,
+  TextProps,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { withOpacity } from "@/helpers/helpers";
@@ -17,6 +18,7 @@ export type ButtonProps = ViewProps & {
   loading?: boolean;
   clickHandler?: () => void;
   clickAttemptHandler?: () => void;
+  textStyle?: TextProps["style"];
 };
 
 export default function Button({
@@ -28,6 +30,7 @@ export default function Button({
   clickHandler = () => undefined,
   clickAttemptHandler = () => undefined,
   style,
+  textStyle = undefined,
   children,
 }: ButtonProps) {
   const buttonStyles = StyleSheet.create({
@@ -91,6 +94,7 @@ export default function Button({
             textStyles[size],
             { fontWeight: bold ? 600 : 400 },
             loading && { opacity: 0 },
+            textStyle,
           ]}
         >
           {children}

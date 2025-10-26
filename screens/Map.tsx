@@ -19,7 +19,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ExploreEateriesFilterSidebar from "@/sidebars/ExploreEateriesFilterSidebar";
 import { getEateryFilters } from "@/requests/eateryFilters";
 import { getBrowseRequest } from "@/requests/browseEateries";
-import { AxiosError } from "axios";
+import { CustomIcon } from "@/components/CustomIcon";
+import ExploreEateriesDetailsSidebar from "@/sidebars/ExploreEateriesDetailsSidebar";
 
 export type MapScreenProps = {
   initialSearch: string;
@@ -41,9 +42,9 @@ export default function Map({
   };
 
   const delta: Omit<Region, "latitude" | "longitude"> = {
-    latitudeDelta: 0.06,
+    latitudeDelta: 0.05,
     longitudeDelta:
-      0.06 * (Dimensions.get("window").width / Dimensions.get("window").height),
+      0.05 * (Dimensions.get("window").width / Dimensions.get("window").height),
   };
 
   const map = useRef<MapView>(null);
@@ -67,6 +68,20 @@ export default function Map({
 
   const [markers, setMarkers] = useState<MapMarkers[]>([]);
 
+  const [showPlaceDetails, setShowPlaceDetails] = useState<
+    { id: number; branchId?: number } | false
+  >(false);
+
+  const moveMapTimeout = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    return () => {
+      if (moveMapTimeout.current) {
+        clearTimeout(moveMapTimeout.current);
+      }
+    };
+  }, []);
+
   const handleSearch = () => {
     if (search.length < 3) {
       alert("Please enter at least three characters to search...");
@@ -87,7 +102,6 @@ export default function Map({
       return;
     }
 
-    console.log("getting places from trigger");
     getPlaces();
 
     setTriggerSearch(false);
@@ -149,18 +163,13 @@ export default function Map({
   };
 
   const moveMap = (region: Region) => {
-    setLatLng({
-      lat: region.latitude,
-      lng: region.longitude,
-    });
-
+    setLatLng({ lat: region.latitude, lng: region.longitude });
     setRange((region.latitudeDelta * 111) / 1.609);
 
-    setTriggerSearch(true);
-  };
-
-  const openDetails = (marker: MapMarkers) => {
-    //
+    clearTimeout(moveMapTimeout.current);
+    moveMapTimeout.current = setTimeout(() => {
+      setTriggerSearch(true);
+    }, 400);
   };
 
   const handleFiltersChanged = (filters: EateryFilters) => {
@@ -319,20 +328,33 @@ export default function Map({
               height: "100%",
             }}
             clusterColor={Colors.secondary}
-            radius={200}
-            maxZoom={20}
+            radius={150}
+            maxZoom={15}
           >
             {markers.map((marker) => (
               <Marker
                 key={marker.key}
+                identifier={marker.key}
                 coordinate={{
                   latitude: marker.location.lat,
                   longitude: marker.location.lng,
                 }}
-                pinColor={marker.color}
                 stopPropagation={false}
-                onPress={() => openDetails(marker)}
-              />
+                tracksViewChanges={false}
+                onPress={() =>
+                  setShowPlaceDetails({
+                    id: marker.id,
+                    branchId: marker.branchId,
+                  })
+                }
+              >
+                <CustomIcon
+                  name="marker"
+                  fill={marker.color}
+                  width={40}
+                  height={40}
+                />
+              </Marker>
             ))}
           </MapView>
 
@@ -344,6 +366,12 @@ export default function Map({
               onFiltersChanged={handleFiltersChanged}
             />
           )}
+
+          <ExploreEateriesDetailsSidebar
+            onClose={() => setShowPlaceDetails(false)}
+            eateryId={showPlaceDetails ? showPlaceDetails.id : undefined}
+            branchId={showPlaceDetails ? showPlaceDetails.branchId : undefined}
+          />
         </>
       )}
     </View>

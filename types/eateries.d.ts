@@ -7,7 +7,7 @@ import {
 import { CustomIconProps } from "@/components/CustomIcon";
 import React, { Dispatch, SetStateAction } from "react";
 
-export type EateryType = "Eatery" | "Attraction" | "Hotel";
+export type EateryType = "Eatery" | "Attraction" | "Hotel / B&B";
 
 export type EateryRating =
   | "0"
@@ -202,8 +202,24 @@ export type AppliedEateryFilters = {
 
 export type BrowseEateryResource = {
   id: number;
+  branchId?: number;
   key: string;
   isNationwideBranch: boolean;
   location: LatLng;
   color: string;
+};
+
+export type EaterySummaryResource = BaseEatery & {
+  branchId?: number;
+  fullLocation: string;
+  venueType?: string;
+  website?: string;
+  restaurants: AttractionRestaurant[];
+  info: string;
+  location: { address: string };
+  phone?: string;
+  reviews: {
+    number: number;
+    average: EateryRating;
+  };
 };

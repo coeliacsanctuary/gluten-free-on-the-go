@@ -80,7 +80,7 @@ export default function ExploreEateriesFilterSidebar({
       onClose={() => onClose()}
       backgroundColor={Colors.background}
     >
-      <ScrollView style={{ backgroundColor: Colors.background }}>
+      <View style={{ backgroundColor: Colors.background }}>
         <View
           style={{
             flexDirection: "row",
@@ -103,7 +103,7 @@ export default function ExploreEateriesFilterSidebar({
           </Button>
         </View>
 
-        <View>
+        <ScrollView>
           <CheckboxGroupField
             value={eateryTypeFilters}
             onChange={(filters) => setEateryTypeFilters([...filters])}
@@ -121,8 +121,8 @@ export default function ExploreEateriesFilterSidebar({
             onChange={(filters) => setFeatureFilters([...filters])}
             label="Special Features"
           />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </Sidebar>
   );
 }

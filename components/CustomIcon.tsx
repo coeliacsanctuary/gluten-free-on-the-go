@@ -13,6 +13,7 @@ const icons: Record<string, React.FC<SvgProps>> = {
   "fodmap-friendly": require("@/assets/icons/fodmap-friendly.svg").default,
   "gluten-free-menu": require("@/assets/icons/gluten-free-menu.svg").default,
   hotel: require("@/assets/icons/hotel.svg").default,
+  marker: require("@/assets/icons/marker.svg").default,
   parking: require("@/assets/icons/parking.svg").default,
   pizza: require("@/assets/icons/pizza.svg").default,
   "place-to-sleep": require("@/assets/icons/place-to-sleep.svg").default,
