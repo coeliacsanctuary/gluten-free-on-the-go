@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import Sidebar from "@/sidebars/Sidebar";
 import { EateryFilterItem, EateryFilters } from "@/types/eateries";
 import { useEffect, useState } from "react";
@@ -80,7 +80,7 @@ export default function ExploreEateriesFilterSidebar({
       onClose={() => onClose()}
       backgroundColor={Colors.background}
     >
-      <View style={{ backgroundColor: Colors.background }}>
+      <ScrollView style={{ backgroundColor: Colors.background }}>
         <View
           style={{
             flexDirection: "row",
@@ -122,7 +122,7 @@ export default function ExploreEateriesFilterSidebar({
             label="Special Features"
           />
         </View>
-      </View>
+      </ScrollView>
     </Sidebar>
   );
 }

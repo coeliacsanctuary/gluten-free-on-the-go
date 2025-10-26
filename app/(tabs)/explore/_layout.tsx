@@ -1,9 +1,10 @@
 import { Stack } from "expo-router";
 
-export default function NearbyStack() {
+export default function ExploreStack() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
+      <Stack.Screen name="map" />
       <Stack.Screen name="eatery-details" />
     </Stack>
   );

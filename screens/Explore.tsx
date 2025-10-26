@@ -13,6 +13,7 @@ import TexInputField from "@/components/Form/TextInputField";
 import Button from "@/components/Form/Button";
 import { getExplorePlacesRequest } from "@/requests/explorePlaces";
 import ExploreEateriesFilterSidebar from "@/sidebars/ExploreEateriesFilterSidebar";
+import { router } from "expo-router";
 
 export type ExploreProps = {
   setTitle: Dispatch<SetStateAction<string>>;
@@ -178,7 +179,19 @@ export default function Explore({ setTitle }: ExploreProps) {
             Filter
           </Button>
 
-          <Button size="xs" theme="secondary">
+          <Button
+            size="xs"
+            theme="secondary"
+            clickHandler={() =>
+              router.navigate({
+                pathname: "/(tabs)/explore/map",
+                params: {
+                  search,
+                  appliedFilters: JSON.stringify(appliedFilters),
+                },
+              })
+            }
+          >
             Map
           </Button>
         </View>
@@ -217,7 +230,11 @@ export default function Explore({ setTitle }: ExploreProps) {
                     </Text>
                   )}
 
-                  <Button>Map</Button>
+                  <Button
+                    clickHandler={() => router.navigate("/(tabs)/explore/map")}
+                  >
+                    Map
+                  </Button>
                 </View>
               </Card>
             )}

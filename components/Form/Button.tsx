@@ -27,6 +27,7 @@ export default function Button({
   loading = false,
   clickHandler = () => undefined,
   clickAttemptHandler = () => undefined,
+  style,
   children,
 }: ButtonProps) {
   const buttonStyles = StyleSheet.create({
@@ -81,6 +82,7 @@ export default function Button({
           buttonStyles[theme],
           buttonStyles[size],
           disabled && buttonStyles.disabled,
+          style,
         ]}
       >
         <Text

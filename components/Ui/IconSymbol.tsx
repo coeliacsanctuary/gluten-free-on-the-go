@@ -46,6 +46,8 @@ const MAPPING = {
   "flag.fill": "flag",
   "map.fill": "map",
   magnifyingglass: "search",
+  "location.circle": "my-location",
+  "slider.horizontal.3": "filter-list-alt",
 } as IconMapping;
 
 /**
