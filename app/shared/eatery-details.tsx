@@ -9,9 +9,10 @@ import { getEateryDetailsRequest } from "@/requests/eateryDetails";
 import DetailedEatery from "@/components/Eateries/DetailedEatery";
 
 export default function EateryDetails() {
-  const { id, branchId } = useLocalSearchParams<{
+  const { id, branchId, leaveReview } = useLocalSearchParams<{
     id: string;
     branchId?: string;
+    leaveReview?: string;
   }>();
   const [loading, setLoading] = useState(true);
 
@@ -65,6 +66,7 @@ export default function EateryDetails() {
             <DetailedEatery
               eatery={eatery}
               eateryName={eateryName}
+              leaveReview={leaveReview}
               sidebarOpen={sidebarOpen}
               setSidebarOpen={setSidebarOpen}
             />

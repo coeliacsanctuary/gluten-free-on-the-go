@@ -10,6 +10,11 @@ export type HttpResponse<T> = {
   data: T;
 };
 
+export type ValidationErrorResponse = {
+  message: string;
+  errors: Record<string, string[]>;
+};
+
 export type PaginatedCollection<T> = {
   data: T[];
   current_page: number;
@@ -31,6 +36,7 @@ export type ImageGalleryItem = {
 export type SelectBoxOption<T extends ValueType = number, L = string> = {
   value: T;
   label: L;
+  parent?: T;
 };
 
 export type CheckboxValue<T = number, L extends React.Key = string> = {

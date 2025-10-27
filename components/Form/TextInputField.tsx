@@ -17,7 +17,7 @@ export type TexInputFieldProps = Omit<
   label?: string;
   required?: boolean;
   iconSuffix?: IconSymbolName;
-  style: ViewProps["style"];
+  style?: ViewProps["style"];
 };
 
 export default function TexInputField({

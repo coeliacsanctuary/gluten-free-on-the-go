@@ -48,6 +48,7 @@ const MAPPING = {
   magnifyingglass: "search",
   "location.circle": "my-location",
   "slider.horizontal.3": "filter-list-alt",
+  "exclamationmark.triangle.fill": "warning",
 } as IconMapping;
 
 /**

@@ -23,6 +23,7 @@ export type DetailedEateryProps = {
   eateryName: string;
   sidebarOpen: boolean;
   setSidebarOpen: Dispatch<SetStateAction<boolean>>;
+  leaveReview?: string;
 };
 
 export default function DetailedEatery({
@@ -30,6 +31,7 @@ export default function DetailedEatery({
   eateryName,
   sidebarOpen,
   setSidebarOpen,
+  leaveReview,
 }: DetailedEateryProps) {
   const [showAllReviews, setShowAllReviews] = useState<boolean>(false);
 
@@ -42,8 +44,9 @@ export default function DetailedEatery({
     useState<boolean>(false);
   const [showSealiacOverviewModal, setShowSealiacOverviewModal] =
     useState<boolean>(false);
-  const [showReviewEateryModal, setShowReviewEateryModal] =
-    useState<boolean>(false);
+  const [showReviewEateryModal, setShowReviewEateryModal] = useState<boolean>(
+    !!(leaveReview && parseInt(leaveReview) === 1),
+  );
 
   const modalSetters: Record<string, (value: boolean) => void> = {
     map: setShowMapModal,

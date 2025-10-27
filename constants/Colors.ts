@@ -14,4 +14,5 @@ export const Colors = {
   secondary: "#DBBC25",
   positive: "#00e800",
   negative: "#ff0000",
+  negativeDark: "#e53e3e",
 };

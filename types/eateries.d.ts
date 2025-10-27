@@ -223,3 +223,15 @@ export type EaterySummaryResource = BaseEatery & {
     average: EateryRating;
   };
 };
+
+export type EateryVenueTypeGroup = {
+  label: string;
+  options: Omit<SelectBoxOption, "parent">[];
+};
+
+type CheckRecommendedPlaceResult = {
+  result: string;
+  id: number;
+  branchId?: number;
+  label: string;
+};

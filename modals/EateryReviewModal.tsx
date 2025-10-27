@@ -106,9 +106,7 @@ export default function EateryReviewEateryModal({
       .then(() => {
         setHasSubmitted(true);
       })
-      .catch((err: AxiosError) => {
-        console.log(err.response?.data);
-
+      .catch(() => {
         alert("Sorry, there was an error submitting your review.");
       })
       .finally(() => {
