@@ -90,7 +90,9 @@ export default function DetailedEatery({
 
         <EateryInfoCard eatery={eatery} eateryName={eateryName} />
 
-        <EateryLocationCard eatery={eatery} eateryName={eateryName} />
+        {!eatery.is_nationwide && (
+          <EateryLocationCard eatery={eatery} eateryName={eateryName} />
+        )}
 
         <EaterySealiacOverviewCard eatery={eatery} eateryName={eateryName} />
 

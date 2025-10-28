@@ -229,9 +229,19 @@ export type EateryVenueTypeGroup = {
   options: Omit<SelectBoxOption, "parent">[];
 };
 
-type CheckRecommendedPlaceResult = {
+export type CheckRecommendedPlaceResult = {
   result: string;
   id: number;
   branchId?: number;
   label: string;
+};
+
+export type NationwideEatery = BaseEatery & {
+  info: string;
+  website?: string;
+  average_rating: EateryRating;
+  number_of_ratings: number;
+  venueType: string;
+  average_expense: EateryAverageExpense;
+  hasBranches: boolean;
 };

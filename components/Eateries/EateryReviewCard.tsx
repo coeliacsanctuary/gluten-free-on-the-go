@@ -70,7 +70,7 @@ export default function EateryReviewCard({
         </ReviewHeadingPill>
       )}
 
-      {!!review.branch_name && showAllReviews && (
+      {!!review.branch_name && !showAllReviews && (
         <ReviewHeadingPill>
           <Text style={{ fontWeight: "600" }}>Branch</Text>
           <Text>{review.branch_name}</Text>
