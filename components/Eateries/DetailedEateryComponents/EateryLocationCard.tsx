@@ -6,6 +6,7 @@ import { baseUrl } from "@/constants/Http";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { useEateryModals } from "@/context/eateryModalContext";
+import { EateryMap } from "@/components/Eateries/EateryMap";
 
 export type EateryLocationCardProps = {
   eatery: DetailedEatery;
@@ -28,18 +29,9 @@ export default function EateryLocationCard({
         Where to find {eateryName}
       </Text>
 
-      <Pressable onPress={() => eateryModals.openMap()}>
-        <ImageBackground
-          style={{
-            width: "100%",
-            backgroundPosition: "50% 50%",
-            backgroundSize: "200%",
-            backgroundRepeat: "no-repeat",
-            height: 350,
-          }}
-          source={`${baseUrl}/static/map/${latLngString}`}
-        />
-      </Pressable>
+      <EateryMap
+        latlng={eatery.branch ? eatery.branch.location : eatery.location}
+      />
 
       <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
         <IconSymbol name="map" color={Colors.text} size={18} />

@@ -13,6 +13,8 @@ type EateryModalsContextType = {
   closeSealiacOverview: () => void;
   openReviewEatery: () => void;
   closeReviewEatery: () => void;
+  openBranchSidebar: () => void;
+  closeBranchSidebar: () => void;
 };
 
 const EateryModalsContext = createContext<EateryModalsContextType>({
@@ -28,6 +30,8 @@ const EateryModalsContext = createContext<EateryModalsContextType>({
   closeSealiacOverview: () => {},
   openReviewEatery: () => {},
   closeReviewEatery: () => {},
+  openBranchSidebar: () => {},
+  closeBranchSidebar: () => {},
 });
 
 export const useEateryModals = () => useContext(EateryModalsContext);

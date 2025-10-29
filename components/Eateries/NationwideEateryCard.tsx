@@ -62,7 +62,7 @@ export default function NationwideEateryCard({
           </View>
 
           <RenderHtml
-            contentWidth={width}
+            contentWidth={width - 32}
             source={{ html: eatery.info }}
             tagsStyles={{
               body: {
@@ -74,13 +74,35 @@ export default function NationwideEateryCard({
             }}
           />
 
+          {eatery.number_of_branches > 0 && (
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 8,
+                alignItems: "center",
+              }}
+            >
+              <Pill theme="secondary">
+                {eatery.number_of_branches}{" "}
+                {pluralise("branch", eatery.number_of_branches)} listed
+              </Pill>
+
+              {eatery.nearby_branches > 0 && (
+                <Pill theme="secondary">{eatery.nearby_branches} nearby</Pill>
+              )}
+            </View>
+          )}
+
           <View
-            style={{
-              flexDirection: "row",
-              gap: 8,
-              alignItems: "center",
-              marginTop: -10,
-            }}
+            style={[
+              {
+                flexDirection: "row",
+                gap: 8,
+                alignItems: "center",
+                marginTop: -10,
+              },
+              eatery.number_of_branches === 0 && { marginTop: -10 },
+            ]}
           >
             <Pill>{eatery.venueType}</Pill>
 

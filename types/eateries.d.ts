@@ -66,6 +66,7 @@ export type DetailedEatery = BaseEatery & {
   last_updated: string;
   last_updated_human: string;
   qualifies_for_ai: boolean;
+  number_of_branches: number;
 };
 
 export type EateryBranch = {
@@ -243,5 +244,32 @@ export type NationwideEatery = BaseEatery & {
   number_of_ratings: number;
   venueType: string;
   average_expense: EateryAverageExpense;
-  hasBranches: boolean;
+  number_of_branches: number;
+  nearby_branches: number;
+};
+
+export type EateryBranchSummaryResource = {
+  name: string;
+};
+
+export type EateryBranchResource = {
+  id: number;
+  name: string;
+  county: string;
+  town: string;
+  area?: string;
+  location: LatLng & { address: string };
+  distance: number;
+};
+
+export type EateryBranchResponse = {
+  [Country: string]: {
+    [County: string]: {
+      [Town: string]: {
+        [Area: string | "_"]: {
+          branches: EateryBranchResource[];
+        }[];
+      }[];
+    }[];
+  };
 };

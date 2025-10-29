@@ -17,6 +17,8 @@ import EateryReportEateryModal from "@/modals/EateryReportModal";
 import EaterySealiacOverviewWhatsThisModal from "@/modals/EaterySealiacOverviewWhatsThisModal";
 import EateryReviewEateryModal from "@/modals/EateryReviewModal";
 import EateryDetailsMenuSidebar from "@/sidebars/EateryDetailsMenuSidebar";
+import EateryBranchListCard from "@/components/Eateries/DetailedEateryComponents/EateryBranchListCard";
+import EateryDetailsNationwideBranchesSidebar from "@/sidebars/EateryDetailsNationwideBranchesSidebar";
 
 export type DetailedEateryProps = {
   eatery: DetailedEateryType;
@@ -48,6 +50,9 @@ export default function DetailedEatery({
     !!(leaveReview && parseInt(leaveReview) === 1),
   );
 
+  const [showBranchListSidebar, setShowBranchListSidebar] =
+    useState<boolean>(false);
+
   const modalSetters: Record<string, (value: boolean) => void> = {
     map: setShowMapModal,
     edit: setSuggestEditsModal,
@@ -70,6 +75,8 @@ export default function DetailedEatery({
         closeSealiacOverview: () => setShowSealiacOverviewModal(false),
         openReviewEatery: () => setShowReviewEateryModal(true),
         closeReviewEatery: () => setShowReviewEateryModal(false),
+        openBranchSidebar: () => setShowBranchListSidebar(true),
+        closeBranchSidebar: () => setShowBranchListSidebar(false),
       }}
     >
       <EateryDetailsMenuSidebar
@@ -90,9 +97,16 @@ export default function DetailedEatery({
 
         <EateryInfoCard eatery={eatery} eateryName={eateryName} />
 
-        {!eatery.is_nationwide && (
-          <EateryLocationCard eatery={eatery} eateryName={eateryName} />
-        )}
+        {!eatery.is_nationwide ||
+          (!!eatery.branch && (
+            <EateryLocationCard eatery={eatery} eateryName={eateryName} />
+          ))}
+
+        {eatery.is_nationwide &&
+          !!eatery.branch === false &&
+          eatery.number_of_branches > 0 && (
+            <EateryBranchListCard eatery={eatery} eateryName={eateryName} />
+          )}
 
         <EaterySealiacOverviewCard eatery={eatery} eateryName={eateryName} />
 
@@ -168,6 +182,13 @@ export default function DetailedEatery({
         isNationwide={eatery.is_nationwide}
         open={showReviewEateryModal}
         onClose={() => setShowReviewEateryModal(false)}
+      />
+
+      <EateryDetailsNationwideBranchesSidebar
+        open={showBranchListSidebar}
+        onClose={() => setShowBranchListSidebar(false)}
+        id={eatery.id}
+        eateryName={eateryName}
       />
     </EateryModalsProvider>
   );

@@ -4,6 +4,8 @@ import { NationwideEatery } from "@/types/eateries";
 import { FlatList } from "react-native";
 import { getNationwideChainsRequest } from "@/requests/nationwideChains";
 import NationwideEateryCard from "@/components/Eateries/NationwideEateryCard";
+import { LatLng } from "@/types/types";
+import * as Location from "expo-location";
 
 export default function NationwideChains({
   ListHeaderComponent,
@@ -11,12 +13,13 @@ export default function NationwideChains({
   ListHeaderComponent?: ReactElement;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
+  const [latlng, setLatLng] = useState<false | LatLng>();
   const [nationwideChains, setNationwideChains] = useState<NationwideEatery[]>(
     [],
   );
 
   const getPlaces = () => {
-    getNationwideChainsRequest().then((response) => {
+    getNationwideChainsRequest(latlng).then((response) => {
       setNationwideChains(response.data.data);
 
       setLoading(false);
@@ -24,8 +27,27 @@ export default function NationwideChains({
   };
 
   useEffect(() => {
-    getPlaces();
+    async function getCurrentLocation() {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setLatLng(false);
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+
+      setLatLng({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+    }
+
+    getCurrentLocation();
   }, []);
+
+  useEffect(() => {
+    getPlaces();
+  }, [latlng]);
 
   return (
     <FlatList

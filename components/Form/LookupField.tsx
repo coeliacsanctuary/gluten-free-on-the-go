@@ -7,6 +7,8 @@ import DropDownPicker, {
 import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import Label from "@/components/Form/Label";
+import { withOpacity } from "@/helpers/helpers";
+import { Colors } from "@/constants/Colors";
 
 export type LookupFieldProps<
   T = unknown,
@@ -40,14 +42,12 @@ export default function LookupFieldField<
   required = false,
   ...rest
 }: LookupFieldProps<T, P, R, V>) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<R[]>([]);
 
   useEffect(() => {
-    if (!open) {
-      setItems([]);
-
+    if (items.length > 0) {
       return;
     }
 
@@ -57,10 +57,19 @@ export default function LookupFieldField<
         setLoading(false);
       },
     );
-  }, [open]);
+  }, []);
 
-  let inputComponent = (
+  const inputComponent = (
     <DropDownPicker
+      style={[
+        {
+          borderColor: withOpacity(Colors.text, 0.1),
+          borderRadius: 4,
+          borderWidth: 1,
+          padding: 4,
+        },
+      ]}
+      listMode="MODAL"
       open={open}
       loading={loading}
       searchable={true}
@@ -68,7 +77,9 @@ export default function LookupFieldField<
       value={value}
       setValue={setValue}
       items={items}
+      setItems={setItems}
       multiple={false}
+      addCustomItem={true}
       {...rest}
     />
   );

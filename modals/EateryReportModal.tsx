@@ -1,12 +1,12 @@
 import Modal from "@/modals/Modal";
 import { View, Text, ScrollView } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import TextAreaField from "@/components/Form/TextAreaField";
 import Button from "@/components/Form/Button";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import LookupField from "@/components/Form/LookupField";
-import { eateryGetBranchesRequest } from "@/requests/eateryBranches";
+import { eateryGetBranchesSummaryRequest } from "@/requests/eateryBranches";
 import { postReportEateryRequest } from "@/requests/eateryDetails";
 
 export type EateryReportEateryProps = {
@@ -89,9 +89,13 @@ export default function EateryReportEateryModal({
                 <LookupField
                   value={branch}
                   setValue={setBranch}
-                  request={eateryGetBranchesRequest}
+                  request={eateryGetBranchesSummaryRequest}
                   requestParams={eateryId}
-                  responseMapper={(item) => ({ label: item, value: item })}
+                  placeholder="Select a branch"
+                  responseMapper={(item) => ({
+                    label: item.name,
+                    value: item.name,
+                  })}
                 />
               )}
 

@@ -6,7 +6,7 @@ import TextAreaField from "@/components/Form/TextAreaField";
 import Button from "@/components/Form/Button";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import LookupField from "@/components/Form/LookupField";
-import { eateryGetBranchesRequest } from "@/requests/eateryBranches";
+import { eateryGetBranchesSummaryRequest } from "@/requests/eateryBranches";
 import TextInputField from "@/components/Form/TextInputField";
 import StarRatingField, {
   StarRatingInputValue,
@@ -225,9 +225,13 @@ export default function EateryReviewEateryModal({
                   <LookupField
                     value={branch}
                     setValue={setBranch}
-                    request={eateryGetBranchesRequest}
+                    request={eateryGetBranchesSummaryRequest}
                     requestParams={eateryId}
-                    responseMapper={(item) => ({ label: item, value: item })}
+                    placeholder="Select a branch"
+                    responseMapper={(item) => ({
+                      label: item.name,
+                      value: item.name,
+                    })}
                     label="What branch did you eat at?"
                     required
                   />
