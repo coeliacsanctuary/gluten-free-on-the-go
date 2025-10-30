@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { LoaderCard } from "@/components/LoaderCard";
 import { Card } from "@/components/Card";
 import {
@@ -14,6 +14,7 @@ import Button from "@/components/Form/Button";
 import { getExplorePlacesRequest } from "@/requests/explorePlaces";
 import ExploreEateriesFilterSidebar from "@/sidebars/ExploreEateriesFilterSidebar";
 import { router } from "expo-router";
+import { ShopCtaCard } from "@/components/ShopCtaCard";
 
 export type ExploreProps = {
   setTitle: Dispatch<SetStateAction<string>>;
@@ -270,9 +271,20 @@ export default function Explore({ setTitle }: ExploreProps) {
           gap: 8,
           paddingBottom: 24,
         }}
-        renderItem={({ item }) => (
-          <EateryCard basePath="explore" eatery={item} />
-        )}
+        renderItem={({ item, index }) => {
+          const card = <EateryCard basePath="explore" eatery={item} />;
+
+          if (index === 1) {
+            return (
+              <>
+                {card}
+                <ShopCtaCard />
+              </>
+            );
+          }
+
+          return card;
+        }}
         keyExtractor={(item) => item.key.toString()}
         onEndReached={() => updateList()}
         onEndReachedThreshold={0.2}

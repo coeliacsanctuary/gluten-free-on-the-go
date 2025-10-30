@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { LoaderCard } from "@/components/LoaderCard";
 import { Card } from "@/components/Card";
 import { LatLng } from "@/types/types";
@@ -8,6 +8,7 @@ import { getNearbyPlacesRequest } from "@/requests/nearbyPlaces";
 import EateryCard from "@/components/Eateries/EateryCard";
 import { ActivityIndicator, FlatList, Text } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { ShopCtaCard } from "@/components/ShopCtaCard";
 
 export default function NearbyPlaces({
   ListHeaderComponent,
@@ -109,7 +110,20 @@ export default function NearbyPlaces({
         gap: 8,
         paddingBottom: 24,
       }}
-      renderItem={({ item }) => <EateryCard basePath="nearby" eatery={item} />}
+      renderItem={({ item, index }) => {
+        const card = <EateryCard basePath="nearby" eatery={item} />;
+
+        if (index === 1) {
+          return (
+            <>
+              {card}
+              <ShopCtaCard />
+            </>
+          );
+        }
+
+        return card;
+      }}
       keyExtractor={(item) => item.key.toString()}
       onEndReached={() => updateList()}
       onEndReachedThreshold={0.2}

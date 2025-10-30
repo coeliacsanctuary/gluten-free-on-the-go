@@ -47,3 +47,9 @@ export type CheckboxValue<T = number, L extends React.Key = string> = {
   groupBy?: string;
   originalIndex?: number;
 };
+
+export type ShopCta = {
+  text: string;
+  link: string;
+  image: string;
+};
