@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1033710636925",
+    "firebase_url": "https://coeliac-sanctuary-on-the-go.firebaseio.com",
+    "project_id": "coeliac-sanctuary-on-the-go",
+    "storage_bucket": "coeliac-sanctuary-on-the-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033710636925:android:4357bf2a1fac37f6750614",
+        "android_client_info": {
+          "package_name": "com.coeliacsanctuary.onthego"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033710636925-4b5lsddk228j1na9gscfrt7tp6p5dan8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIVDDuTDhXGVzZOjozaArXoyW5o9hzkI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033710636925-4b5lsddk228j1na9gscfrt7tp6p5dan8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
