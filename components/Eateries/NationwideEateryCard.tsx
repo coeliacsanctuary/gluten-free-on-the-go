@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import StarRating from "@/components/Eateries/StarRating";
 import Pill from "@/components/Pill";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import RenderHtml from "react-native-render-html";
 import Button from "@/components/Form/Button";
 import { pluralise } from "@/helpers/helpers";
@@ -131,6 +131,12 @@ export default function NationwideEateryCard({
             theme="primaryLight"
             textStyle={{ textAlign: "center" }}
             size="small"
+            clickHandler={() =>
+              router.push({
+                pathname: `/(tabs)/nationwide/eatery-details`,
+                params: { id: eatery.id },
+              })
+            }
           >
             Read more about{" "}
             <Text style={{ fontWeight: 600 }}>{eatery.title}</Text>

@@ -9,7 +9,7 @@ import {
 
 type Response = {
   nearby: EateryBranchResource[];
-  branches: EateryBranchResponse[];
+  branches: EateryBranchResponse;
 };
 
 export const eateryGetBranchesRequest = async (

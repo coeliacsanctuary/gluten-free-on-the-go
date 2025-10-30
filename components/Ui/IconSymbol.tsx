@@ -30,6 +30,7 @@ const MAPPING = {
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  "chevron.down": "keyboard-arrow-down",
   "chevron.backward": "chevron-left",
   magnifyingglass: "search",
   smartphone: "phone-android",

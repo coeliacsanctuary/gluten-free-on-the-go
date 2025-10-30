@@ -255,6 +255,7 @@ export type EateryBranchSummaryResource = {
 export type EateryBranchResource = {
   id: number;
   name: string;
+  full_name: string;
   county: string;
   town: string;
   area?: string;
@@ -266,10 +267,8 @@ export type EateryBranchResponse = {
   [Country: string]: {
     [County: string]: {
       [Town: string]: {
-        [Area: string | "_"]: {
-          branches: EateryBranchResource[];
-        }[];
-      }[];
-    }[];
+        [Area: string | "_"]: EateryBranchResource[];
+      };
+    };
   };
 };
