@@ -9,13 +9,14 @@ import { Colors } from "@/constants/Colors";
 import { CustomIcon, CustomIconProps } from "@/components/CustomIcon";
 import { IconSymbol, IconSymbolName } from "@/components/Ui/IconSymbol";
 import { baseUrl } from "@/constants/Http";
+import { router } from "expo-router";
 
-export default function More() {
+export default function MoreIndex() {
   const links: ListItemProps[] = [
     {
       label: "About",
       icon: "info.circle",
-      clickHandler: () => {},
+      clickHandler: () => router.navigate("(tabs)/more/about"),
     },
     {
       label: "Contact",
@@ -66,6 +67,7 @@ export default function More() {
 
       <ScrollView style={{ paddingHorizontal: 8, marginBottom: 24 }}>
         <ShopCtaCard />
+
         <WebsiteImageCard />
 
         <Card style={{ padding: 0, gap: 0, marginVertical: 16 }}>

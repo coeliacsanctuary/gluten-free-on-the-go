@@ -3,6 +3,8 @@ import { Card } from "@/components/Card";
 import { Image } from "expo-image";
 import { Pressable, Text } from "react-native";
 import { getWebsiteImageRequest } from "@/requests/website";
+import { LoaderCard } from "@/components/LoaderCard";
+import { router } from "expo-router";
 
 export function WebsiteImageCard() {
   const [websiteImg, setWebsiteImg] = useState<string>();
@@ -18,8 +20,13 @@ export function WebsiteImageCard() {
     return null;
   }
 
-  return (
-    <Pressable style={{ marginTop: 8 }}>
+  return !websiteImg ? (
+    <LoaderCard />
+  ) : (
+    <Pressable
+      style={{ marginTop: 8 }}
+      onPress={() => router.navigate("(tabs)/more/website")}
+    >
       <Card>
         <Image
           source={websiteImg}

@@ -4,6 +4,7 @@ import { getShopCtaRequest } from "@/requests/shopCta";
 import { Card } from "@/components/Card";
 import { Image } from "expo-image";
 import { Linking, Pressable, Text } from "react-native";
+import { LoaderCard } from "@/components/LoaderCard";
 
 export function ShopCtaCard() {
   const [cta, setCta] = useState<ShopCta>();
@@ -15,11 +16,9 @@ export function ShopCtaCard() {
     });
   }, []);
 
-  if (!cta) {
-    return null;
-  }
-
-  return (
+  return !cta ? (
+    <LoaderCard />
+  ) : (
     <Pressable
       style={{ marginTop: 8 }}
       onPress={() => Linking.openURL(cta.link)}
