@@ -47,6 +47,13 @@
       ]
     },
     "plugins": [
+      "@react-native-firebase/app",
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
