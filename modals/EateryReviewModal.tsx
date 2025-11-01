@@ -23,7 +23,7 @@ import {
   createReviewRequest,
   uploadReviewImagesRequest,
 } from "@/requests/eateryReviews";
-import { AxiosError } from "axios";
+import { logEvent } from "@/services/analytics";
 
 export type EateryReviewEateryProps = {
   eateryName: string;
@@ -74,6 +74,17 @@ export default function EateryReviewEateryModal({
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    logEvent({
+      type: "eatery-details-review-modal",
+      metaData: { eateryName },
+    });
+  }, [open]);
+
+  useEffect(() => {
     const requiredFields = [name, email, rating, review];
 
     if (isNationwide && !branchId) {
@@ -104,6 +115,11 @@ export default function EateryReviewEateryModal({
 
     createReviewRequest(eateryId, generatePayload())
       .then(() => {
+        logEvent({
+          type: "submit-review-eatery",
+          metaData: { eateryId },
+        });
+
         setHasSubmitted(true);
       })
       .catch(() => {

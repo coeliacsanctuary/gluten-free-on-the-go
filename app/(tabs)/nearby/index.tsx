@@ -3,8 +3,11 @@ import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import NearbyPlaces from "@/screens/NearbyPlaces";
 import { Text, View } from "react-native";
+import { logScreen } from "@/services/analytics";
 
 export default function NearbyEateries() {
+  logScreen("nearby-places");
+
   return (
     <ScreenWrapper>
       <ScreenHeader>Coeliac Sanctuary - Gluten Free on the Go</ScreenHeader>

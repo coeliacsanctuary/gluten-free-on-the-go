@@ -2,6 +2,8 @@ import { LatLng } from "@/types/types";
 import Modal from "@/modals/Modal";
 import { View, Text, Dimensions } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { logEvent } from "@/services/analytics";
+import { useEffect } from "react";
 
 export type EateryDynamicMapProps = {
   eateryName: string;
@@ -18,6 +20,17 @@ export default function EateryDynamicMapModal({
   open,
   onClose,
 }: EateryDynamicMapProps) {
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    logEvent({
+      type: "eatery-details-map",
+      metaData: { latLng, eateryName },
+    });
+  }, [open]);
+
   return (
     <Modal
       fullHeight

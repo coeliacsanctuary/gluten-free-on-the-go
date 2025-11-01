@@ -27,6 +27,7 @@ import EditableOpeningTimes, {
 } from "@/modals/SuggestEdits/EditableOpeningTimes";
 import { AxiosError } from "axios";
 import Modal from "@/modals/Modal";
+import { logEvent } from "@/services/analytics";
 
 export type EaterySuggestEditProps = {
   eateryName: string;
@@ -59,6 +60,17 @@ export default function EaterySuggestEditModal({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    logEvent({
+      type: "eatery-details-suggest-edit-modal",
+      metaData: { eateryName },
+    });
+  }, [open]);
+
   const isFieldBeingEdited = (field: EditableEateryField): boolean => {
     return currentField?.label === field.label;
   };
@@ -79,6 +91,11 @@ export default function EaterySuggestEditModal({
     if (field) {
       cancelEditingField();
     }
+
+    logEvent({
+      type: "eatery-details-suggest-edit-toggle-field",
+      metaData: { eateryId, field: field.label },
+    });
 
     setNewValue(field.currentValue ? field.currentValue() : null);
 
@@ -107,6 +124,11 @@ export default function EaterySuggestEditModal({
         : newValue,
     })
       .then(() => {
+        logEvent({
+          type: "submit-eatery-suggested-edit",
+          metaData: { eateryId, field: currentField.label },
+        });
+
         toggleFieldUpdated(currentFieldIndex() as number, true);
 
         cancelEditingField();

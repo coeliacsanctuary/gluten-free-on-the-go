@@ -3,8 +3,11 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import NationwideChains from "@/screens/NationwideChains";
 import { Text } from "react-native";
 import { Card } from "@/components/Card";
+import { logScreen } from "@/services/analytics";
 
 export default function NationwideEateries() {
+  logScreen("nationwidePlaces");
+
   return (
     <ScreenWrapper>
       <ScreenHeader>Gluten Free Nationwide Chains</ScreenHeader>

@@ -97,13 +97,12 @@ export default function DetailedEatery({
 
         <EateryInfoCard eatery={eatery} eateryName={eateryName} />
 
-        {!eatery.is_nationwide ||
-          (!!eatery.branch && (
-            <EateryLocationCard eatery={eatery} eateryName={eateryName} />
-          ))}
+        {(!eatery.is_nationwide || eatery.branch !== null) && (
+          <EateryLocationCard eatery={eatery} eateryName={eateryName} />
+        )}
 
         {eatery.is_nationwide &&
-          !!eatery.branch === false &&
+          eatery.branch === null &&
           eatery.number_of_branches > 0 && (
             <EateryBranchListCard eatery={eatery} eateryName={eateryName} />
           )}

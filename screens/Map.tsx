@@ -21,6 +21,7 @@ import { getEateryFilters } from "@/requests/eateryFilters";
 import { getBrowseRequest } from "@/requests/browseEateries";
 import { CustomIcon } from "@/components/CustomIcon";
 import ExploreEateriesDetailsSidebar from "@/sidebars/ExploreEateriesDetailsSidebar";
+import { logEvent } from "@/services/analytics";
 
 export type MapScreenProps = {
   initialSearch: string;
@@ -88,6 +89,11 @@ export default function Map({
       return;
     }
 
+    logEvent({
+      type: "map-place-search",
+      metaData: { search },
+    });
+
     postGeocodeRequest(search)
       .then((response) => {
         navigateToLocation(response.data.data.lat, response.data.data.lng);
@@ -108,6 +114,11 @@ export default function Map({
   }, [triggerSearch]);
 
   const navigateToLocation = (latitude: number, longitude: number) => {
+    logEvent({
+      type: "map-navigate-to-location",
+      metaData: { latitude, longitude },
+    });
+
     // @ts-ignore
     map.current.animateToRegion(
       {
@@ -173,6 +184,11 @@ export default function Map({
   };
 
   const handleFiltersChanged = (filters: EateryFilters) => {
+    logEvent({
+      type: "map-filters-changed",
+      metaData: { filters: JSON.stringify(filters) },
+    });
+
     setAppliedFilters({
       category: filters.categories
         .filter((cat) => cat.checked)

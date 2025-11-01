@@ -1,5 +1,7 @@
 import Modal from "@/modals/Modal";
 import { View, Text, ScrollView } from "react-native";
+import { useEffect } from "react";
+import { logEvent } from "@/services/analytics";
 
 export type EaterySealiacOverviewWhatsThisProps = {
   eateryName: string;
@@ -12,6 +14,17 @@ export default function EaterySealiacOverviewWhatsThisModal({
   open,
   onClose,
 }: EaterySealiacOverviewWhatsThisProps) {
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    logEvent({
+      type: "eatery-details-sealiac-overview-whats-this",
+      metaData: { eateryName },
+    });
+  }, [open]);
+
   return (
     <Modal
       open={open}

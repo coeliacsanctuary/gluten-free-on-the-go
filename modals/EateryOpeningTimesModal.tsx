@@ -5,6 +5,7 @@ import { FullEateryOpeningTimes, OpeningTimeDay } from "@/types/eateries";
 import { Colors } from "@/constants/Colors";
 import { ucfirst } from "@/helpers/helpers";
 import { getEateryOpeningTimesRequest } from "@/requests/eateryDetails";
+import { logEvent } from "@/services/analytics";
 
 export type EateryOpeningTimesProps = {
   eateryName: string;
@@ -26,6 +27,11 @@ export default function EateryOpeningTimesModal({
     if (!open) {
       return;
     }
+
+    logEvent({
+      type: "eatery-details-opening-times",
+      metaData: { eateryName },
+    });
 
     getEateryOpeningTimesRequest(eateryId).then((response) => {
       setOpeningTimes(response.data.data);

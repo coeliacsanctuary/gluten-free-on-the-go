@@ -18,8 +18,11 @@ import { Image } from "expo-image";
 import { RecipeResource } from "@/types/recipes";
 import { getRecipesRequest } from "@/requests/recipes";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
+import { logScreen } from "@/services/analytics";
 
 export default function MoreIndex() {
+  logScreen("website");
+
   const [loadingBlogs, setLoadingBlogs] = useState(true);
   const [loadingRecipes, setLoadingRecipes] = useState(true);
 

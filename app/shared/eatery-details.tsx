@@ -7,6 +7,7 @@ import { LoaderCard } from "@/components/LoaderCard";
 import { DetailedEatery as DetailedEateryType } from "@/types/eateries";
 import { getEateryDetailsRequest } from "@/requests/eateryDetails";
 import DetailedEatery from "@/components/Eateries/DetailedEatery";
+import { logScreen } from "@/services/analytics";
 
 export default function EateryDetails() {
   const { id, branchId, leaveReview } = useLocalSearchParams<{
@@ -14,6 +15,9 @@ export default function EateryDetails() {
     branchId?: string;
     leaveReview?: string;
   }>();
+
+  logScreen("eateryDetails", { id, branchId });
+
   const [loading, setLoading] = useState(true);
 
   const [eatery, setEatery] = useState<DetailedEateryType>();

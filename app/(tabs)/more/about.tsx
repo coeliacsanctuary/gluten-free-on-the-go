@@ -1,15 +1,29 @@
 import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Linking, Pressable, ScrollView, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/Card";
 import { baseUrl } from "@/constants/Http";
 import { withOpacity } from "@/helpers/helpers";
 import { Colors } from "@/constants/Colors";
 import { Checkbox } from "expo-checkbox";
+import { hasConsented, logScreen, toggle } from "@/services/analytics";
+import { APP_VERSION } from "@/constants/App";
 
 export default function MoreIndex() {
+  logScreen("about");
+
   const [allowAnalytics, setAllowAnalytics] = useState(true);
+
+  useEffect(() => {
+    hasConsented().then((result) => {
+      setAllowAnalytics(result);
+    });
+  }, []);
+
+  useEffect(() => {
+    toggle(allowAnalytics);
+  }, [allowAnalytics]);
 
   return (
     <ScreenWrapper>
@@ -136,7 +150,7 @@ export default function MoreIndex() {
           </Card>
 
           <Text style={{ fontSize: 12 }}>
-            App Version 4.0.0 alpha 1, published 1st November 2025
+            App Version {APP_VERSION}, published 1st November 2025
           </Text>
         </View>
       </ScrollView>

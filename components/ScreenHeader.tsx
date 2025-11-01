@@ -3,6 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { DefaultTheme } from "@/constants/DefaultTheme";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import { router } from "expo-router";
+import { logEvent } from "@/services/analytics";
 
 export type ScreenHeaderProps = ViewProps & {
   showBackButton?: boolean;
@@ -49,7 +50,14 @@ export function ScreenHeader({
         }}
       >
         {showBackButton && (
-          <Pressable style={{ paddingLeft: 4 }} onPress={() => router.back()}>
+          <Pressable
+            style={{ paddingLeft: 4 }}
+            onPress={() => {
+              logEvent({ type: "header-back-button" });
+
+              router.back();
+            }}
+          >
             <IconSymbol name="chevron.backward" color={Colors.text} size={18} />
           </Pressable>
         )}
@@ -70,7 +78,11 @@ export function ScreenHeader({
       {showSearchButton && (
         <Pressable
           style={{ paddingRight: 4 }}
-          onPress={() => router.navigate("/(tabs)/explore")}
+          onPress={() => {
+            logEvent({ type: "header-search" });
+
+            router.navigate("/(tabs)/explore");
+          }}
         >
           <IconSymbol name="magnifyingglass" color={Colors.text} size={24} />
         </Pressable>

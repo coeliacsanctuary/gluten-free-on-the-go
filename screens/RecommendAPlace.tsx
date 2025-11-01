@@ -26,6 +26,7 @@ import { Warning } from "@/components/Warning";
 import { Checkbox } from "expo-checkbox";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import { AxiosError } from "axios";
+import { logEvent } from "@/services/analytics";
 
 export default function RecommendAPlace() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -98,6 +99,11 @@ export default function RecommendAPlace() {
     postCheckRecommendedPlace(placeName, placeAddress)
       .then((response) => {
         if (response.status === 200) {
+          logEvent({
+            type: "recommend-place-already-exists",
+            metaData: { placeName, placeAddress },
+          });
+
           setPlaceAlreadyRecommended(response.data.data);
 
           return;

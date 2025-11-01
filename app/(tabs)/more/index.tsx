@@ -10,8 +10,11 @@ import { CustomIcon, CustomIconProps } from "@/components/CustomIcon";
 import { IconSymbol, IconSymbolName } from "@/components/Ui/IconSymbol";
 import { baseUrl } from "@/constants/Http";
 import { router } from "expo-router";
+import { logScreen } from "@/services/analytics";
 
 export default function MoreIndex() {
+  logScreen("more");
+
   const links: ListItemProps[] = [
     {
       label: "About",

@@ -18,6 +18,7 @@ import StarRating from "@/components/Eateries/StarRating";
 import Button from "@/components/Form/Button";
 import { router } from "expo-router";
 import { CustomIcon } from "@/components/CustomIcon";
+import { logEvent } from "@/services/analytics";
 
 export type ExploreEateriesDetailsSidebarProps = {
   onClose: () => void;
@@ -58,6 +59,11 @@ export default function ExploreEateriesDetailsSidebar({
 
       return;
     }
+
+    logEvent({
+      type: "map-place-details",
+      metaData: { eateryId },
+    });
 
     loadEateryDetails();
   }, [eateryId]);

@@ -15,6 +15,7 @@ import { getExplorePlacesRequest } from "@/requests/explorePlaces";
 import ExploreEateriesFilterSidebar from "@/sidebars/ExploreEateriesFilterSidebar";
 import { router } from "expo-router";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
+import { logEvent } from "@/services/analytics";
 
 export type ExploreProps = {
   setTitle: Dispatch<SetStateAction<string>>;
@@ -61,6 +62,11 @@ export default function Explore({ setTitle }: ExploreProps) {
     });
 
     setTitle(`Search results for "${search}"`);
+
+    logEvent({
+      type: "explore-place-search",
+      metaData: { search },
+    });
 
     setTriggerSearch(true);
   };
@@ -120,6 +126,11 @@ export default function Explore({ setTitle }: ExploreProps) {
   }, [currentPage]);
 
   const handleFiltersChanged = (filters: EateryFilters) => {
+    logEvent({
+      type: "explore-updated-filters",
+      metaData: { filters: JSON.stringify(filters) },
+    });
+
     setAppliedFilters({
       category: filters.categories
         .filter((cat) => cat.checked)

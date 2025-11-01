@@ -8,6 +8,7 @@ import { IconSymbol } from "@/components/Ui/IconSymbol";
 import LookupField from "@/components/Form/LookupField";
 import { eateryGetBranchesSummaryRequest } from "@/requests/eateryBranches";
 import { postReportEateryRequest } from "@/requests/eateryDetails";
+import { logEvent } from "@/services/analytics";
 
 export type EateryReportEateryProps = {
   eateryName: string;
@@ -31,6 +32,17 @@ export default function EateryReportEateryModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    logEvent({
+      type: "eatery-details-report-modal",
+      metaData: { eateryName },
+    });
+  }, [open]);
+
   const submitReport = () => {
     setIsSubmitting(true);
 
@@ -39,6 +51,11 @@ export default function EateryReportEateryModal({
       branch_id: branchId,
       branch_name: branch,
     }).then(() => {
+      logEvent({
+        type: "submit-report-eatery",
+        metaData: { eateryId },
+      });
+
       setHasSubmitted(true);
       setIsSubmitting(false);
     });
