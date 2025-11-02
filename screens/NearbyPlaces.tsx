@@ -9,6 +9,7 @@ import EateryCard from "@/components/Eateries/EateryCard";
 import { ActivityIndicator, FlatList, Text } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
+import { AdCard } from "@/components/AdCard";
 
 export default function NearbyPlaces({
   ListHeaderComponent,
@@ -118,6 +119,15 @@ export default function NearbyPlaces({
             <>
               {card}
               <ShopCtaCard />
+            </>
+          );
+        }
+
+        if ((index + 1) % 10 === 0) {
+          return (
+            <>
+              {card}
+              <AdCard style={{ marginTop: 8 }} />
             </>
           );
         }

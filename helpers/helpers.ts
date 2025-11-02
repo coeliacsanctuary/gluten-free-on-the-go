@@ -1,3 +1,7 @@
+import * as Device from "expo-device";
+import { Platform } from "react-native";
+import { TestIds } from "react-native-google-mobile-ads";
+
 export const withOpacity = (hex: string, alpha: number) => {
   const clean = hex.replace("#", "");
 
@@ -34,3 +38,15 @@ export const pluralise = (str: string, count: number): string => {
 
 export const ucfirst = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
+
+export const adId = (ios: string, android: string, test: string): string => {
+  if (Device.isDevice) {
+    if (Platform.OS === "android") {
+      return android;
+    }
+
+    return ios;
+  }
+
+  return test;
+};

@@ -23,6 +23,9 @@ import { Raleway_700Bold_Italic } from "@expo-google-fonts/raleway/700Bold_Itali
 import { Raleway_800ExtraBold_Italic } from "@expo-google-fonts/raleway/800ExtraBold_Italic";
 import { Raleway_900Black_Italic } from "@expo-google-fonts/raleway/900Black_Italic";
 import React from "react";
+import AdsContextProvider from "@/context/adsContextProvider";
+import { StickyFooterAd } from "@/components/StickyFooterAd";
+import { SessionProvider } from "@/context/sessionContext";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -52,14 +55,18 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <AdsContextProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <SessionProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </SessionProvider>
 
-        <Stack.Screen name="+not-found" />
-      </Stack>
+        <StatusBar style="auto" backgroundColor={DefaultTheme.colors.primary} />
 
-      <StatusBar style="auto" backgroundColor={DefaultTheme.colors.primary} />
-    </ThemeProvider>
+        <StickyFooterAd />
+      </ThemeProvider>
+    </AdsContextProvider>
   );
 }

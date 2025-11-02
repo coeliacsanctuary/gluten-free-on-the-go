@@ -9,16 +9,19 @@ import {
 import Sidebar from "@/sidebars/Sidebar";
 import { Colors } from "@/constants/Colors";
 import { pluralise, withOpacity } from "@/helpers/helpers";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { EaterySummaryResource } from "@/types/eateries";
 import { getEaterySummaryRequest } from "@/requests/eateryDetails";
 import Pill from "@/components/Pill";
 import RenderHtml from "react-native-render-html";
 import StarRating from "@/components/Eateries/StarRating";
 import Button from "@/components/Form/Button";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { CustomIcon } from "@/components/CustomIcon";
 import { logEvent } from "@/services/analytics";
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { ANDROID_SCREEN_AD, IOS_SCREEN_AD } from "@/constants/App";
+import { SessionContext } from "@/context/sessionContext";
 
 export type ExploreEateriesDetailsSidebarProps = {
   onClose: () => void;
@@ -53,6 +56,9 @@ export default function ExploreEateriesDetailsSidebar({
       });
   };
 
+  const { mapSidebarViewCount, incrementMapSidebarViewCount } =
+    useContext(SessionContext);
+
   useEffect(() => {
     if (eateryId === undefined) {
       setLoading(true);
@@ -64,6 +70,8 @@ export default function ExploreEateriesDetailsSidebar({
       type: "map-place-details",
       metaData: { eateryId },
     });
+
+    incrementMapSidebarViewCount();
 
     loadEateryDetails();
   }, [eateryId]);
@@ -82,10 +90,31 @@ export default function ExploreEateriesDetailsSidebar({
     return "eatery";
   };
 
+  const { showAd, adLoaded } = useInterstitialAd({
+    iosAdId: IOS_SCREEN_AD,
+    androidAdId: ANDROID_SCREEN_AD,
+    keywords: ["gluten free", "coeliac"],
+    viewCount: mapSidebarViewCount,
+    interval: 4,
+    onClosedCallback: () => onClose(),
+  });
+
+  const closeSidebar = () => {
+    showAd();
+
+    if (!adLoaded) {
+      onClose();
+      return;
+    }
+
+    // just in case...
+    setTimeout(() => onClose(), 6000);
+  };
+
   return (
     <Sidebar
       open={!!eateryId}
-      onClose={() => onClose()}
+      onClose={closeSidebar}
       backgroundColor={Colors.background}
       side="left"
     >

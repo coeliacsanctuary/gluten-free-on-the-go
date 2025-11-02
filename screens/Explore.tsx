@@ -16,6 +16,7 @@ import ExploreEateriesFilterSidebar from "@/sidebars/ExploreEateriesFilterSideba
 import { router } from "expo-router";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
 import { logEvent } from "@/services/analytics";
+import { AdCard } from "@/components/AdCard";
 
 export type ExploreProps = {
   setTitle: Dispatch<SetStateAction<string>>;
@@ -290,6 +291,15 @@ export default function Explore({ setTitle }: ExploreProps) {
               <>
                 {card}
                 <ShopCtaCard />
+              </>
+            );
+          }
+
+          if ((index + 1) % 10 === 0) {
+            return (
+              <>
+                {card}
+                <AdCard style={{ marginTop: 8 }} />
               </>
             );
           }

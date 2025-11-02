@@ -1,7 +1,14 @@
 import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import { Linking, Pressable, ScrollView, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import { Card } from "@/components/Card";
 import { baseUrl } from "@/constants/Http";
 import { withOpacity } from "@/helpers/helpers";
@@ -9,8 +16,12 @@ import { Colors } from "@/constants/Colors";
 import { Checkbox } from "expo-checkbox";
 import { hasConsented, logScreen, toggle } from "@/services/analytics";
 import { APP_VERSION } from "@/constants/App";
+import { AdsContext } from "@/context/adsContext";
+import Button from "@/components/Form/Button";
 
 export default function MoreIndex() {
+  const { showPrivacyOptions, formAvailable } = useContext(AdsContext);
+
   logScreen("about");
 
   const [allowAnalytics, setAllowAnalytics] = useState(true);
@@ -139,6 +150,16 @@ export default function MoreIndex() {
                 color={Colors.primary}
               />
             </View>
+
+            {formAvailable && (
+              <Button
+                size="small"
+                theme="primaryLight"
+                clickHandler={() => showPrivacyOptions()}
+              >
+                Configure Privacy and Consent options
+              </Button>
+            )}
 
             <Pressable
               onPress={() => Linking.openURL(baseUrl + "/privacy-policy")}

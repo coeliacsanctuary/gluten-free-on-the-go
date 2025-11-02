@@ -183,12 +183,16 @@ export default function DetailedEatery({
         onClose={() => setShowReviewEateryModal(false)}
       />
 
-      <EateryDetailsNationwideBranchesSidebar
-        open={showBranchListSidebar}
-        onClose={() => setShowBranchListSidebar(false)}
-        id={eatery.id}
-        eateryName={eateryName}
-      />
+      {eatery.is_nationwide &&
+        eatery.branch === null &&
+        eatery.number_of_branches > 0 && (
+          <EateryDetailsNationwideBranchesSidebar
+            open={showBranchListSidebar}
+            onClose={() => setShowBranchListSidebar(false)}
+            id={eatery.id}
+            eateryName={eateryName}
+          />
+        )}
     </EateryModalsProvider>
   );
 }
