@@ -2,6 +2,7 @@ import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import {
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   Text,
@@ -40,7 +41,13 @@ export default function MoreIndex() {
     <ScreenWrapper>
       <ScreenHeader showBackButton>About</ScreenHeader>
 
-      <ScrollView style={{ paddingHorizontal: 8, marginBottom: 24 }}>
+      <ScrollView
+        style={[
+          { paddingHorizontal: 8 },
+          Platform.OS === "ios" && { marginBottom: 24 },
+          Platform.OS === "android" && { marginBottom: 12 },
+        ]}
+      >
         <View style={{ gap: 8 }}>
           <Card>
             <Text>

@@ -5,6 +5,7 @@ import {
   View,
   Animated,
   Easing,
+  Platform,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
@@ -85,7 +86,7 @@ export default function Sidebar({
           style={[
             {
               position: "absolute",
-              top: insets.top,
+              top: Platform.OS === "ios" ? insets.top : 0,
               bottom: 0,
               width: extraWide ? "90%" : "80%",
               backgroundColor: backgroundColor,

@@ -45,9 +45,9 @@ export default function EateryDynamicMapModal({
       <View style={{ width: "100%", height: "100%" }}>
         <MapView
           zoomEnabled
-          zoomControlEnabled
+          zoomControlEnabled={false}
           showsUserLocation
-          showsMyLocationButton
+          showsMyLocationButton={false}
           provider="google"
           style={{ width: "100%", height: "100%" }}
           initialRegion={{

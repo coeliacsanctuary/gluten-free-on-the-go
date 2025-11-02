@@ -46,12 +46,15 @@ const MAPPING = {
   flag: "outlined-flag",
   "flag.fill": "flag",
   "map.fill": "map",
+  map: "map",
   magnifyingglass: "search",
   "location.circle": "my-location",
   "slider.horizontal.3": "filter-list-alt",
   "exclamationmark.triangle.fill": "warning",
   "info.circle": "info-outline",
   "envelope.circle": "mail",
+  link: "link",
+  pencil: "edit",
 } as IconMapping;
 
 /**

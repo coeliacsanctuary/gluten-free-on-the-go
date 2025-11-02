@@ -93,6 +93,8 @@
         {
           "androidAppId": "ca-app-pub-1063051842575021~3318227595",
           "iosAppId": "ca-app-pub-1063051842575021~4822363527",
+          "android_app_id": "ca-app-pub-1063051842575021~3318227595",
+          "ios_app_id": "ca-app-pub-1063051842575021~4822363527",
           "delayAppMeasurementInit": true,
           "user_tracking_usage_description": "This identifier will be used to deliver personalized ads to you.",
           "sk_ad_network_items": [

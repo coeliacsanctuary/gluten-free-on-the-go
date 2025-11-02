@@ -98,7 +98,12 @@ export default function EateryDetails() {
         <LoaderCard style={{ marginTop: -8 }} />
       ) : (
         <>
-          <ScrollView style={{ marginBottom: 24 }}>
+          <ScrollView
+            style={[
+              Platform.OS === "ios" && { marginBottom: 24 },
+              Platform.OS === "android" && { marginBottom: 4 },
+            ]}
+          >
             <DetailedEatery
               eatery={eatery}
               eateryName={eateryName}

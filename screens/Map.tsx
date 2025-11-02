@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Marker, Region } from "react-native-maps";
 import MapView from "react-native-map-clustering";
-import { Dimensions, View } from "react-native";
+import { Dimensions, Platform, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { LatLng } from "@/types/types";
 import { LoaderCard } from "@/components/LoaderCard";
@@ -281,27 +281,35 @@ export default function Map({
 
   return (
     <View
-      style={{
-        marginTop: -8,
-        position: "relative",
-        marginBottom: insets.bottom * 2,
-      }}
+      style={[
+        { position: "relative" },
+        Platform.OS === "ios" && {
+          marginTop: -8,
+          marginBottom: insets.bottom * 2,
+        },
+        Platform.OS === "android" && {
+          marginTop: -16,
+        },
+      ]}
     >
       {loading ? (
         <LoaderCard style={{ height: "100%" }} />
       ) : (
         <>
           <View
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              flexDirection: "row",
-              gap: 8,
-              padding: 8,
-              alignItems: "center",
-              zIndex: 99999,
-            }}
+            style={[
+              {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                flexDirection: "row",
+                gap: 8,
+                padding: 8,
+                alignItems: "center",
+                zIndex: 99999,
+              },
+              Platform.OS === "android" && { right: 48, top: 4 },
+            ]}
           >
             <TexInputField
               style={{ flex: 1, backgroundColor: Colors.background }}

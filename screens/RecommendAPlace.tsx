@@ -209,7 +209,12 @@ export default function RecommendAPlace() {
       }}
     >
       <ScrollView style={{ padding: 8, width: "100%", marginTop: -6 }}>
-        <Card style={{ width: "100%" }}>
+        <Card
+          style={[
+            { width: "100%" },
+            Platform.OS === "android" && { marginBottom: 12 },
+          ]}
+        >
           {hasSubmitted ? (
             <>
               <View style={{ alignItems: "center" }}>

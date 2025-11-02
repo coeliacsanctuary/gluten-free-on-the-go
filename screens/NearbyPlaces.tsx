@@ -101,6 +101,14 @@ export default function NearbyPlaces({
               </Text>
             </Card>
           )}
+
+          {!loading && nearbyPlaces.length === 0 && (
+            <Card>
+              <Text style={{ fontSize: 16, paddingHorizontal: 16 }}>
+                Sorry, we can't find any places nearby!
+              </Text>
+            </Card>
+          )}
         </>
       }
       data={nearbyPlaces}
