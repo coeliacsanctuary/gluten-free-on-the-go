@@ -359,7 +359,7 @@ export default function EaterySuggestEditModal({
     >
       {loading || !suggestEditsResponse ? (
         <ActivityIndicator
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%", paddingBottom: 64 }}
           size="large"
           color={Colors.primary}
         />
@@ -375,7 +375,7 @@ export default function EaterySuggestEditModal({
           <View style={{ width: "100%", height: "100%", padding: 16 }}>
             <View style={{ gap: 16 }}>
               <Text>
-                Can you improve the details we&apos;ve got for
+                Can you improve the details we&apos;ve got for{" "}
                 <Text style={{ fontWeight: 600 }}>{eateryName}?</Text> Let us
                 know using the options below, submit the details and we&apos;ll
                 check it out!

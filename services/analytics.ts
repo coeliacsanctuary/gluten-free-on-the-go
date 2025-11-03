@@ -1,5 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import analytics from "@react-native-firebase/analytics";
+import {
+  getAnalytics,
+  logEvent as analyticsLogEvent,
+  setAnalyticsCollectionEnabled,
+} from "firebase/analytics";
+import { getApp } from "@react-native-firebase/app";
 import { APP_VERSION } from "@/constants/App";
 
 export type AnalyticsEvent = {
@@ -39,7 +44,7 @@ export const logEvent = async (event: AnalyticsEvent) => {
     return Promise.resolve();
   }
 
-  return analytics().logEvent(event.type, {
+  return analyticsLogEvent(analytics(), event.type, {
     appVersion: APP_VERSION,
     ...event.metaData,
   });
@@ -49,8 +54,12 @@ export const toggle = async (value: boolean) => {
   try {
     await AsyncStorage.setItem("@allow-analytics", value ? "true" : "false");
 
-    await analytics().setAnalyticsCollectionEnabled(value);
+    setAnalyticsCollectionEnabled(analytics(), value);
   } catch (e: unknown) {
     // saving error
   }
+};
+
+const analytics = () => {
+  return getAnalytics(getApp());
 };

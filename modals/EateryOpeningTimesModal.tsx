@@ -52,7 +52,7 @@ export default function EateryOpeningTimesModal({
     >
       {loading || !openingTimes ? (
         <ActivityIndicator
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%", paddingBottom: 64 }}
           size="large"
           color={Colors.primary}
         />

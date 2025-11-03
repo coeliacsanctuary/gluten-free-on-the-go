@@ -83,11 +83,11 @@ export function useInterstitialAd({
 
   const showAd = useCallback(() => {
     if (ad && adLoaded) {
-        try {
-      ad.show();
-      } catch(e) {
-            //
-        }
+      try {
+        ad.show();
+      } catch (e) {
+        //
+      }
     }
   }, [ad, adLoaded]);
 

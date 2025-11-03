@@ -1,5 +1,5 @@
 import { DetailedEatery as DetailedEateryType } from "@/types/eateries";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import EateryHelpImproveCard from "@/components/Eateries/DetailedEateryComponents/EateryHelpImproveCard";
 import EateryInfoCard from "@/components/Eateries/DetailedEateryComponents/EateryInfoCard";
 import EateryLocationCard from "@/components/Eateries/DetailedEateryComponents/EateryLocationCard";
@@ -90,7 +90,13 @@ export default function DetailedEatery({
         }}
       />
 
-      <View style={{ paddingHorizontal: 8, gap: 8 }}>
+      <View
+        style={[
+          { paddingHorizontal: 8, gap: 8 },
+          Platform.OS === "ios" && { marginBottom: 8 },
+          Platform.OS === "android" && { marginBottom: 12 },
+        ]}
+      >
         <EateryIntroCard eatery={eatery} eateryName={eateryName} />
 
         <EateryHelpImproveCard eateryName={eateryName} />

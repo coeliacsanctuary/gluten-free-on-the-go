@@ -97,22 +97,20 @@ export default function EateryDetails() {
       {loading || eatery === undefined ? (
         <LoaderCard style={{ marginTop: -8 }} />
       ) : (
-        <>
-          <ScrollView
-            style={[
-              Platform.OS === "ios" && { marginBottom: 24 },
-              Platform.OS === "android" && { marginBottom: 4 },
-            ]}
-          >
-            <DetailedEatery
-              eatery={eatery}
-              eateryName={eateryName}
-              leaveReview={leaveReview}
-              sidebarOpen={sidebarOpen}
-              setSidebarOpen={setSidebarOpen}
-            />
-          </ScrollView>
-        </>
+        <ScrollView
+          style={[
+            Platform.OS === "ios" && { marginBottom: 24 },
+            Platform.OS === "android" && { marginBottom: 0 },
+          ]}
+        >
+          <DetailedEatery
+            eatery={eatery}
+            eateryName={eateryName}
+            leaveReview={leaveReview}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+          />
+        </ScrollView>
       )}
     </ScreenWrapper>
   );
