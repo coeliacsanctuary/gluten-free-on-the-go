@@ -18,6 +18,7 @@ export default function TabLayout() {
         tabBarStyle: [
           {
             marginTop: 0,
+            height: 56,
           },
           Platform.OS === "ios" && { position: "absolute" },
         ],
@@ -54,7 +55,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="recommend-a-place"
         options={{
-          title: "Recommend a Place",
+          title: "Recommend",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="fork.knife.circle" color={color} />
           ),
