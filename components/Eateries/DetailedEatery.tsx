@@ -93,7 +93,7 @@ export default function DetailedEatery({
       <View
         style={[
           { paddingHorizontal: 8, gap: 8 },
-          Platform.OS === "ios" && { marginBottom: 8 },
+          Platform.OS === "ios" && { marginBottom: 32 },
           Platform.OS === "android" && { marginBottom: 12 },
         ]}
       >

@@ -3,6 +3,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import {
   ActivityIndicator,
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   Text,
@@ -45,7 +46,13 @@ export default function MoreIndex() {
     <ScreenWrapper>
       <ScreenHeader showBackButton>Latest on Coeliac Sanctuary</ScreenHeader>
 
-      <ScrollView style={{ paddingHorizontal: 8, marginBottom: 24 }}>
+      <ScrollView
+        style={[
+          { paddingHorizontal: 8 },
+          Platform.OS === "ios" && { marginBottom: 56 },
+          Platform.OS === "android" && { marginBottom: 12 },
+        ]}
+      >
         <View style={{ gap: 8 }}>
           <Card>
             <Text>

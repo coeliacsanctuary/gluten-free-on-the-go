@@ -212,6 +212,7 @@ export default function RecommendAPlace() {
         <Card
           style={[
             { width: "100%" },
+            Platform.OS === "ios" && { marginBottom: 56 },
             Platform.OS === "android" && { marginBottom: 12 },
           ]}
         >

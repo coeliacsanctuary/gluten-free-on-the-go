@@ -1,6 +1,13 @@
 import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import { Linking, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  Linking,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
 import React from "react";
 import { WebsiteImageCard } from "@/components/WebsiteImageCard";
@@ -68,7 +75,13 @@ export default function MoreIndex() {
     <ScreenWrapper>
       <ScreenHeader>Coeliac Sanctuary - Gluten Free on the Go</ScreenHeader>
 
-      <ScrollView style={{ paddingHorizontal: 8, marginBottom: 24 }}>
+      <ScrollView
+        style={[
+          { paddingHorizontal: 8 },
+          Platform.OS === "ios" && { marginBottom: 48 },
+          Platform.OS === "android" && { marginBottom: 24 },
+        ]}
+      >
         <ShopCtaCard />
 
         <WebsiteImageCard />

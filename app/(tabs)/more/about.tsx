@@ -44,7 +44,7 @@ export default function MoreIndex() {
       <ScrollView
         style={[
           { paddingHorizontal: 8 },
-          Platform.OS === "ios" && { marginBottom: 24 },
+          Platform.OS === "ios" && { marginBottom: 56 },
           Platform.OS === "android" && { marginBottom: 12 },
         ]}
       >
