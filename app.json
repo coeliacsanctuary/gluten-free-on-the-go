@@ -29,7 +29,7 @@
       "versionCode": 40000,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#80ccfc"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.coeliacsanctuary.onthego",
@@ -149,6 +149,14 @@
             "3rd42ekr43.skadnetwork",
             "3qcr597p9d.skadnetwork"
           ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#80ccfc",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 400
         }
       ]
     ],
