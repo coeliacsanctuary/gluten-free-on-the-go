@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  Platform,
   Pressable,
   StyleProp,
   View,
@@ -68,28 +69,32 @@ export default function ImageGallery({
         style={{ overflow: "hidden", backgroundColor: "black" }}
         closeIconColour="white"
       >
-        <View style={{ marginTop: -20 }}>
-          {showModal && (
-            <GestureHandlerRootView>
-              <Animated.View style={{ height: "100%" }}>
-                <Gallery
-                  data={imageUrls}
-                  initialIndex={selectedImageIndex}
-                  containerDimensions={{
-                    width: Dimensions.get("window").width * 0.9,
-                    height: Dimensions.get("window").height * 0.8,
-                  }}
-                  style={{
-                    backgroundColor: "black",
-                    height: "auto",
-                  }}
-                  disableSwipeUp
-                  disableVerticalSwipe
-                />
-              </Animated.View>
-            </GestureHandlerRootView>
-          )}
-        </View>
+        {showModal && (
+          <GestureHandlerRootView
+            style={{
+              flex: 1,
+              backgroundColor: "black",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Gallery
+              data={imageUrls}
+              initialIndex={selectedImageIndex}
+              disableSwipeUp
+              disableVerticalSwipe
+              style={{
+                width: Dimensions.get("window").width * 0.9,
+                height: Dimensions.get("window").height * 0.8,
+                alignSelf: "center",
+              }}
+              containerDimensions={{
+                width: Dimensions.get("window").width * 0.9,
+                height: Dimensions.get("window").height * 0.7,
+              }}
+            />
+          </GestureHandlerRootView>
+        )}
       </Modal>
     </>
   );
