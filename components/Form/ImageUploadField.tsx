@@ -13,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { AxiosError, AxiosResponse } from "axios";
 import { HttpResponse } from "@/types/types";
 import { ImagePickerAsset } from "expo-image-picker/src/ImagePicker.types";
-import { getInfoAsync } from "expo-file-system";
+import { File } from "expo-file-system";
 import { FileInfo } from "expo-file-system/src/FileSystem.types";
 import Label from "@/components/Form/Label";
 
@@ -67,7 +67,7 @@ export function ImageUploadField({
   };
 
   const isImageInvalid = async (image: string): Promise<boolean> => {
-    const info: FileInfo = await getInfoAsync(image);
+    const info: FileInfo = new File(image).info();
 
     console.log({ info });
 

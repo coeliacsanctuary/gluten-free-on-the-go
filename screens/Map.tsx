@@ -10,7 +10,6 @@ import {
   BrowseEateryResource,
   EateryFilters,
 } from "@/types/eateries";
-import * as Location from "expo-location";
 import { postGeocodeRequest } from "@/requests/geocode";
 import TexInputField from "@/components/Form/TextInputField";
 import Button from "@/components/Form/Button";
@@ -22,6 +21,7 @@ import { getBrowseRequest } from "@/requests/browseEateries";
 import { CustomIcon } from "@/components/CustomIcon";
 import ExploreEateriesDetailsSidebar from "@/sidebars/ExploreEateriesDetailsSidebar";
 import { logEvent } from "@/services/analytics";
+import { useCurrentLocation } from "@/hooks/useLocation";
 
 export type MapScreenProps = {
   initialSearch: string;
@@ -61,8 +61,6 @@ export default function Map({
 
   const [filters, setFilters] = useState<EateryFilters>();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [latLng, setLatLng] = useState<LatLng>(initialLatLng);
   const [range, setRange] = useState<number>(5);
 
   const [triggerSearch, setTriggerSearch] = useState<boolean>(false);
@@ -73,7 +71,18 @@ export default function Map({
     { id: number; branchId?: number } | false
   >(false);
 
-  const moveMapTimeout = useRef<NodeJS.Timeout>();
+  const {
+    latLng,
+    setLatLng,
+    loading,
+    setLoading,
+    refresh: getCurrentLocation,
+  } = useCurrentLocation({
+    initialLatLng,
+    shouldCheck: initialSearch === "",
+  });
+
+  const moveMapTimeout = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     return () => {
@@ -133,12 +142,19 @@ export default function Map({
   };
 
   const getPlaces = () => {
+    if (!latLng || !range) {
+      return;
+    }
+
     getBrowseRequest(latLng, range, appliedFilters)
       .then((response) => {
         prepareMarkers(response.data.data);
       })
       .catch(() => {
         //
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -178,6 +194,7 @@ export default function Map({
     setRange((region.latitudeDelta * 111) / 1.609);
 
     clearTimeout(moveMapTimeout.current);
+
     moveMapTimeout.current = setTimeout(() => {
       setTriggerSearch(true);
     }, 400);
@@ -213,19 +230,6 @@ export default function Map({
   }, [showFilterSidebar]);
 
   useEffect(() => {
-    async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-
-      if (status === "granted") {
-        let location = await Location.getCurrentPositionAsync({});
-
-        setLatLng({
-          lat: location.coords.latitude,
-          lng: location.coords.longitude,
-        });
-      }
-    }
-
     if (initialSearch === "") {
       getCurrentLocation()
         .then(() => {
@@ -308,11 +312,15 @@ export default function Map({
                 alignItems: "center",
                 zIndex: 99999,
               },
-              Platform.OS === "android" && { right: 48, top: 4 },
+              Platform.OS === "android" && { right: 48, top: 11 },
             ]}
           >
             <TexInputField
-              style={{ flex: 1, backgroundColor: Colors.background }}
+              style={{
+                flex: 1,
+                backgroundColor: Colors.background,
+                paddingVertical: 2,
+              }}
               placeholder="Search..."
               iconSuffix="magnifyingglass"
               value={search}
@@ -323,7 +331,7 @@ export default function Map({
             <Button
               size="small"
               theme="secondary"
-              style={{ paddingHorizontal: 8, paddingVertical: 4 }}
+              style={{ paddingHorizontal: 8, paddingVertical: 6 }}
               clickHandler={() => setShowFilterSidebar(true)}
             >
               <IconSymbol
@@ -336,6 +344,7 @@ export default function Map({
 
           <MapView
             ref={map}
+            userInterfaceStyle="light"
             zoomEnabled
             zoomControlEnabled
             showsUserLocation
@@ -347,39 +356,49 @@ export default function Map({
               ...delta,
             }}
             onRegionChangeComplete={moveMap}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
+            style={[
+              {
+                width: "100%",
+                height: "100%",
+              },
+              Platform.OS === "android" && { marginBottom: -74, marginTop: 7 },
+            ]}
             clusterColor={Colors.secondary}
-            radius={150}
+            radius={90}
             maxZoom={15}
+            toolbarEnabled={false}
           >
-            {markers.map((marker) => (
-              <Marker
-                key={marker.key}
-                identifier={marker.key}
-                coordinate={{
-                  latitude: marker.location.lat,
-                  longitude: marker.location.lng,
-                }}
-                stopPropagation={false}
-                tracksViewChanges={false}
-                onPress={() =>
-                  setShowPlaceDetails({
-                    id: marker.id,
-                    branchId: marker.branchId,
-                  })
-                }
-              >
-                <CustomIcon
-                  name="marker"
-                  fill={marker.color}
-                  width={40}
-                  height={40}
-                />
-              </Marker>
-            ))}
+            {markers.map((marker) => {
+              try {
+                return (
+                  <Marker
+                    key={marker.key}
+                    identifier={marker.key}
+                    coordinate={{
+                      latitude: marker.location.lat,
+                      longitude: marker.location.lng,
+                    }}
+                    stopPropagation={false}
+                    tracksViewChanges={false}
+                    onPress={() =>
+                      setShowPlaceDetails({
+                        id: marker.id,
+                        branchId: marker.branchId,
+                      })
+                    }
+                  >
+                    <CustomIcon
+                      name="marker"
+                      fill={marker.color}
+                      width={40}
+                      height={40}
+                    />
+                  </Marker>
+                );
+              } catch (e) {
+                return null;
+              }
+            })}
           </MapView>
 
           {filters && (

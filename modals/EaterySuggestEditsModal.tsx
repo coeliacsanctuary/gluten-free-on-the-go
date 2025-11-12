@@ -28,6 +28,7 @@ import EditableOpeningTimes, {
 import { AxiosError } from "axios";
 import Modal from "@/modals/Modal";
 import { logEvent } from "@/services/analytics";
+import { ValidationErrorResponse } from "@/types/types";
 
 export type EaterySuggestEditProps = {
   eateryName: string;
@@ -133,7 +134,19 @@ export default function EaterySuggestEditModal({
 
         cancelEditingField();
       })
-      .catch((response: AxiosError) => console.log(response.response?.data))
+      .catch((error: AxiosError<undefined | ValidationErrorResponse>) => {
+        let message = "Sorry, there was an error submitting your edit...";
+        if (error.response?.status === 422 && error.response?.data) {
+          message =
+            error.response.data.errors[
+              Object.keys(error.response.data.errors)[0]
+            ][0];
+        }
+
+        alert(message);
+
+        console.log(error.response?.data);
+      })
       .finally(() => {
         setIsSubmitting(false);
       });

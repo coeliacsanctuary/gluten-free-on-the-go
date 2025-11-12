@@ -44,6 +44,10 @@ export default function EateryReportEateryModal({
   }, [open]);
 
   const submitReport = () => {
+    if (!report) {
+      alert("Please enter your report first!");
+    }
+
     setIsSubmitting(true);
 
     postReportEateryRequest(eateryId, {

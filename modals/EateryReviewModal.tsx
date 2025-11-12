@@ -12,7 +12,7 @@ import StarRatingField, {
   StarRatingInputValue,
 } from "@/components/Form/StarRatingField";
 import SelectField from "@/components/Form/SelectField";
-import { SelectBoxOption } from "@/types/types";
+import { SelectBoxOption, ValidationErrorResponse } from "@/types/types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   ImageUploadField,
@@ -24,6 +24,7 @@ import {
   uploadReviewImagesRequest,
 } from "@/requests/eateryReviews";
 import { logEvent } from "@/services/analytics";
+import { AxiosError } from "axios";
 
 export type EateryReviewEateryProps = {
   eateryName: string;
@@ -122,8 +123,19 @@ export default function EateryReviewEateryModal({
 
         setHasSubmitted(true);
       })
-      .catch(() => {
-        alert("Sorry, there was an error submitting your review.");
+      .catch((error: AxiosError<undefined | ValidationErrorResponse>) => {
+        let message = "Sorry, there was an error submitting your review.";
+
+        if (error.response?.status === 422 && error.response?.data) {
+          message =
+            error.response.data.errors[
+              Object.keys(error.response.data.errors)[0]
+            ][0];
+        }
+
+        alert(message);
+
+        console.log(error.response?.data);
       })
       .finally(() => {
         setIsSubmitting(false);

@@ -60,7 +60,7 @@ export default function EateryInfoCard({
       )}
 
       {eatery.features.length > 0 && (
-        <View style={{ flexDirection: "row", gap: 8 }}>
+        <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
           {eatery.features.map((feature) => (
             <View
               key={feature.slug}

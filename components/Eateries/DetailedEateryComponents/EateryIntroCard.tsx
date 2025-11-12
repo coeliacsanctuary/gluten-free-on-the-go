@@ -12,7 +12,7 @@ export type EateryIntroCardProps = {
 export default function EateryIntroCard({ eatery }: EateryIntroCardProps) {
   return (
     <Card>
-      {eatery.reviews.number > 0 && (
+      {eatery.reviews.number > 0 && !!eatery.reviews.average && (
         <EateryAverageRating review={eatery.reviews} />
       )}
 

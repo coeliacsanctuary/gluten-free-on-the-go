@@ -17,5 +17,7 @@ export const getBrowseRequest = async (
   params.append("filter[venueType]", filter.venueType.join(","));
   params.append("filter[feature]", filter.feature.join(","));
 
-  return client().get("eating-out/browse", { params });
+  return client().get("eating-out/browse?" + params.toString(), {
+    validateStatus: (status) => status === 200,
+  });
 };

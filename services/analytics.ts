@@ -3,7 +3,7 @@ import {
   getAnalytics,
   logEvent as analyticsLogEvent,
   setAnalyticsCollectionEnabled,
-} from "firebase/analytics";
+} from "@react-native-firebase/analytics";
 import { getApp } from "@react-native-firebase/app";
 import { APP_VERSION } from "@/constants/App";
 
@@ -43,6 +43,8 @@ export const logEvent = async (event: AnalyticsEvent) => {
   if (!(await hasConsented())) {
     return Promise.resolve();
   }
+
+  event.type = event.type.replaceAll("-", "_");
 
   return analyticsLogEvent(analytics(), event.type, {
     appVersion: APP_VERSION,

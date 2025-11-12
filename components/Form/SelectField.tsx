@@ -8,6 +8,8 @@ import React from "react";
 import { Colors } from "@/constants/Colors";
 import { withOpacity } from "@/helpers/helpers";
 import Label from "@/components/Form/Label";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Platform } from "react-native";
 
 export type SelectFieldProps<T extends ValueType = number, L = string> = Omit<
   DropDownPickerProps<T>,
@@ -27,6 +29,7 @@ export default function SelectField<T extends ValueType = number, L = string>({
   required = false,
   ...rest
 }: SelectFieldProps<T, L>) {
+  const insets = useSafeAreaInsets();
   const [open, setOpen] = React.useState(false);
 
   let inputComponent = (
@@ -45,6 +48,9 @@ export default function SelectField<T extends ValueType = number, L = string>({
         value={value}
         setValue={setValue}
         items={options as ItemType<T>[]}
+        modalContentContainerStyle={{
+          marginTop: Platform.OS === 'android' ? insets.top : 0,
+        }}
         {...rest}
       />
     </>

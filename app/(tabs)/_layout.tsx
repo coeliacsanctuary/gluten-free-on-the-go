@@ -5,8 +5,12 @@ import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import TabBarBackground from "@/components/Ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+  const extraBottom = Platform.OS === "android" && insets.bottom === 0 ? 20 : 0;
+
   return (
     <Tabs
       initialRouteName="nearby"
@@ -14,11 +18,13 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.tint,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarShowLabel: true,
         tabBarBackground: TabBarBackground,
         tabBarStyle: [
           {
             marginTop: 0,
             height: 56,
+            paddingBottom: extraBottom,
           },
           Platform.OS === "ios" && { position: "absolute" },
         ],

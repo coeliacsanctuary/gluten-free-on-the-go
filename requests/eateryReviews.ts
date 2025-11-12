@@ -91,7 +91,7 @@ export const uploadReviewImagesRequest = async (
 
     request.append(`images[${index}]`, {
       // @ts-ignore
-      uri: Platform.OS === "ios" ? image.uri.replace("file://", "") : photo.uri,
+      uri: Platform.OS === "ios" ? image.uri.replace("file://", "") : image.uri,
       name: fileName,
       type: "image/jpeg",
     });

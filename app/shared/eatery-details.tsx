@@ -9,14 +9,7 @@ import { getEateryDetailsRequest } from "@/requests/eateryDetails";
 import DetailedEatery from "@/components/Eateries/DetailedEatery";
 import { logScreen } from "@/services/analytics";
 import { SessionContext } from "@/context/sessionContext";
-import {
-  AdEventType,
-  InterstitialAd,
-  TestIds,
-} from "react-native-google-mobile-ads";
-import { adId } from "@/helpers/helpers";
 import { ANDROID_SCREEN_AD, IOS_SCREEN_AD } from "@/constants/App";
-import { setStatusBarHidden, StatusBar } from "expo-status-bar";
 import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 
 export default function EateryDetails() {

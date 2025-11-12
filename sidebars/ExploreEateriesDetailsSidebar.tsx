@@ -97,12 +97,16 @@ export default function ExploreEateriesDetailsSidebar({
     viewCount: mapSidebarViewCount,
     interval: 4,
     onClosedCallback: () => onClose(),
+    refreshTracker: eateryId,
   });
 
   const closeSidebar = () => {
+    console.log("triggered close");
     showAd();
 
+    console.log({ adLoaded });
     if (!adLoaded) {
+      console.log("calling close prop");
       onClose();
       return;
     }

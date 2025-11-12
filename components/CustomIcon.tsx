@@ -23,6 +23,7 @@ const icons: Record<string, React.FC<SvgProps>> = {
   "pub-grub": require("@/assets/icons/pub-grub.svg").default,
   tiktok: require("@/assets/icons/tiktok.svg").default,
   twitter: require("@/assets/icons/twitter.svg").default,
+  vegan: require("@/assets/icons/vegan.svg").default,
   wifi: require("@/assets/icons/wifi.svg").default,
 };
 

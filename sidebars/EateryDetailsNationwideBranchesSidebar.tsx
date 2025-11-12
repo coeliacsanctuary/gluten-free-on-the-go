@@ -12,6 +12,7 @@ import NearbyBranchCard from "@/components/Eateries/NearbyBranchCard";
 import { router } from "expo-router";
 import { EateryBranchDropdown } from "@/components/Eateries/EateryBranchDropdown";
 import SimpleBranchCard from "@/components/Eateries/SimpleBranchCard";
+import { useCurrentLocation } from "@/hooks/useLocation";
 
 export type EateryDetailsNationwideBranchesSidebarProps = {
   open: boolean;
@@ -28,13 +29,14 @@ export default function EateryDetailsNationwideBranchesSidebar({
 }: EateryDetailsNationwideBranchesSidebarProps) {
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [latlng, setLatLng] = useState<LatLng | false>();
   const [nearbyBranches, setNearbyBranches] =
     useState<EateryBranchResource[]>();
   const [branches, setBranches] = useState<EateryBranchResponse>();
 
+  const { latLng } = useCurrentLocation();
+
   const getBranches = () => {
-    eateryGetBranchesRequest(id, latlng)
+    eateryGetBranchesRequest(id, latLng)
       .then((response) => {
         setNearbyBranches(response.data.data.nearby);
         setBranches(response.data.data.branches);
@@ -51,27 +53,8 @@ export default function EateryDetailsNationwideBranchesSidebar({
   };
 
   useEffect(() => {
-    async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setLatLng(false);
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-
-      setLatLng({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
-      });
-    }
-
-    getCurrentLocation();
-  }, []);
-
-  useEffect(() => {
     getBranches();
-  }, [latlng]);
+  }, [latLng]);
 
   return (
     <Sidebar

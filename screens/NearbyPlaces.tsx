@@ -1,15 +1,14 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { LoaderCard } from "@/components/LoaderCard";
 import { Card } from "@/components/Card";
-import { LatLng } from "@/types/types";
 import { NearbyEatery } from "@/types/eateries";
-import * as Location from "expo-location";
 import { getNearbyPlacesRequest } from "@/requests/nearbyPlaces";
 import EateryCard from "@/components/Eateries/EateryCard";
 import { ActivityIndicator, FlatList, Text } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
 import { AdCard } from "@/components/AdCard";
+import { useCurrentLocation } from "@/hooks/useLocation";
 
 export default function NearbyPlaces({
   ListHeaderComponent,
@@ -18,17 +17,24 @@ export default function NearbyPlaces({
 }) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasMorePages, setHasMorePages] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(true);
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyEatery[]>([]);
-  const [latlng, setLatLng] = useState<LatLng>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
 
+  const { latLng, error: locationError } = useCurrentLocation();
+
+  if (locationError) {
+    setError(
+      "Sorry, we were unable to find your current location, please check your location settings and try again. If the problem persists, please try again later.",
+    );
+  }
+
   const getPlaces = () => {
-    if (!latlng) {
+    if (!latLng) {
       return;
     }
 
-    getNearbyPlacesRequest(latlng, currentPage).then((response) => {
+    getNearbyPlacesRequest(latLng, currentPage).then((response) => {
       setNearbyPlaces(
         currentPage === 1
           ? response.data.data.data
@@ -50,27 +56,8 @@ export default function NearbyPlaces({
   };
 
   useEffect(() => {
-    async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setError("Permission to access location was denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-
-      setLatLng({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
-      });
-    }
-
-    getCurrentLocation();
-  }, []);
-
-  useEffect(() => {
     getPlaces();
-  }, [latlng]);
+  }, [latLng]);
 
   useEffect(() => {
     if (currentPage === 1 || !hasMorePages) {
@@ -105,7 +92,7 @@ export default function NearbyPlaces({
           {!loading && nearbyPlaces.length === 0 && (
             <Card>
               <Text style={{ fontSize: 16, paddingHorizontal: 16 }}>
-                Sorry, we can't find any places nearby!
+                Sorry, we can&#39;t find any places nearby!
               </Text>
             </Card>
           )}

@@ -11,7 +11,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import { withOpacity } from "@/helpers/helpers";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 export type ModalProps = Omit<DefaultModalProps, "visible"> & {
   open?: boolean;
@@ -75,48 +78,53 @@ export default function Sidebar({
           backgroundColor: withOpacity(Colors.text, 0.8),
         }}
       >
-        {/* Tap outside to close */}
         <Pressable
           style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
           onPress={onClose}
         />
 
-        {/* Sliding sidebar */}
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              top: Platform.OS === "ios" ? insets.top : 0,
-              bottom: 0,
-              width: extraWide ? "90%" : "80%",
-              backgroundColor: backgroundColor,
-              transform: [{ translateX: translate }],
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 4,
-              elevation: 3,
-            },
-            side === "left" ? { left: 0 } : { right: 0 },
-            style,
-          ]}
+        <SafeAreaView
+          edges={["bottom"]}
+          style={{
+            marginBottom: Platform.OS === "android" ? insets.bottom + 12 : 0,
+            flex: 1,
+          }}
         >
-          {/* Close button (correct side now) */}
-          <Pressable
-            style={{
-              position: "absolute",
-              top: 8,
-              left: side === "right" ? -32 : undefined,
-              right: side === "left" ? -32 : undefined,
-              zIndex: 10,
-            }}
-            onPress={onClose}
+          <Animated.View
+            style={[
+              {
+                position: "absolute",
+                top: insets.top,
+                bottom: insets.bottom,
+                width: extraWide ? "90%" : "80%",
+                backgroundColor: backgroundColor,
+                transform: [{ translateX: translate }],
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 4,
+                elevation: 3,
+              },
+              side === "left" ? { left: 0 } : { right: 0 },
+              style,
+            ]}
           >
-            <IconSymbol name="xmark" size={24} color={Colors.background} />
-          </Pressable>
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 8,
+                left: side === "right" ? -32 : undefined,
+                right: side === "left" ? -32 : undefined,
+                zIndex: 10,
+              }}
+              onPress={onClose}
+            >
+              <IconSymbol name="xmark" size={24} color={Colors.background} />
+            </Pressable>
 
-          {children}
-        </Animated.View>
+            {children}
+          </Animated.View>
+        </SafeAreaView>
       </View>
     </DefaultModal>
   );

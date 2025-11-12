@@ -16,6 +16,7 @@ type UseInterstitialAdOptions = {
   showOnFirst?: boolean;
   interval?: number;
   onClosedCallback?: () => void;
+  refreshTracker?: string | number | boolean;
 };
 
 export function useInterstitialAd({
@@ -26,6 +27,7 @@ export function useInterstitialAd({
   showOnFirst = true,
   interval = 4,
   onClosedCallback = () => undefined,
+  refreshTracker = undefined,
 }: UseInterstitialAdOptions) {
   const [ad, setAd] = useState<InterstitialAd>();
   const [adLoaded, setAdLoaded] = useState(false);
@@ -34,6 +36,9 @@ export function useInterstitialAd({
     const shouldShow =
       (showOnFirst && viewCount === 1) ||
       (interval > 0 && (viewCount - 1) % interval === 0);
+
+    setAd(undefined);
+    setAdLoaded(false);
 
     if (!shouldShow) {
       return;
@@ -79,7 +84,7 @@ export function useInterstitialAd({
       unsubOpened();
       unsubClosed();
     };
-  }, [viewCount]);
+  }, [viewCount, refreshTracker]);
 
   const showAd = useCallback(() => {
     if (ad && adLoaded) {

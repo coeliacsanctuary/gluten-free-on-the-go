@@ -1,4 +1,4 @@
-import { Pressable, Text, View, ViewProps } from "react-native";
+import { Platform, Pressable, Text, View, ViewProps } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { DefaultTheme } from "@/constants/DefaultTheme";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
@@ -31,16 +31,18 @@ export function ScreenHeader({
 
   return (
     <View
-      style={{
-        paddingHorizontal: 8,
-        paddingBottom: 8,
-        paddingTop: 6,
-        backgroundColor: DefaultTheme.colors.primary,
-        width: "100%",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexDirection: "row",
-      }}
+      style={[
+        {
+          paddingHorizontal: 8,
+          backgroundColor: DefaultTheme.colors.primary,
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexDirection: "row",
+        },
+        Platform.OS === "ios" && { paddingVertical: 8 },
+        Platform.OS === "android" && { paddingVertical: 12 },
+      ]}
     >
       <View
         style={{
@@ -64,12 +66,14 @@ export function ScreenHeader({
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={{
-            color: Colors.text,
-            fontSize: 18,
-            fontWeight: "600",
-            lineHeight: 32,
-          }}
+          style={[
+            {
+              color: Colors.text,
+              fontWeight: "600",
+              lineHeight: 32,
+            },
+            Platform.OS === "ios" && { fontSize: 18 },
+          ]}
         >
           {children}
         </Text>

@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import Sidebar from "@/sidebars/Sidebar";
 import { EateryFilterItem, EateryFilters } from "@/types/eateries";
 import { useEffect, useState } from "react";
@@ -104,23 +104,25 @@ export default function ExploreEateriesFilterSidebar({
         </View>
 
         <ScrollView>
-          <CheckboxGroupField
-            value={eateryTypeFilters}
-            onChange={(filters) => setEateryTypeFilters([...filters])}
-            label="Venue Category"
-          />
+          <View style={{ paddingBottom: Platform.OS === "ios" ? 40 : 20 }}>
+            <CheckboxGroupField
+              value={eateryTypeFilters}
+              onChange={(filters) => setEateryTypeFilters([...filters])}
+              label="Venue Category"
+            />
 
-          <CheckboxGroupField
-            value={venueTypeFilters}
-            onChange={(filters) => setVenueTypeFilters([...filters])}
-            label="Venue Type"
-          />
+            <CheckboxGroupField
+              value={venueTypeFilters}
+              onChange={(filters) => setVenueTypeFilters([...filters])}
+              label="Venue Type"
+            />
 
-          <CheckboxGroupField
-            value={featureFilters}
-            onChange={(filters) => setFeatureFilters([...filters])}
-            label="Special Features"
-          />
+            <CheckboxGroupField
+              value={featureFilters}
+              onChange={(filters) => setFeatureFilters([...filters])}
+              label="Special Features"
+            />
+          </View>
         </ScrollView>
       </View>
     </Sidebar>

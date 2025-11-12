@@ -26,6 +26,8 @@ import React from "react";
 import AdsContextProvider from "@/context/adsContextProvider";
 import { StickyFooterAd } from "@/components/StickyFooterAd";
 import { SessionProvider } from "@/context/sessionContext";
+import { Colors } from "@/constants/Colors";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -55,18 +57,20 @@ export default function RootLayout() {
   }
 
   return (
-    <AdsContextProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <SessionProvider>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-        </SessionProvider>
+    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
+      <AdsContextProvider>
+        <ThemeProvider value={DefaultTheme}>
+          <SessionProvider>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+          </SessionProvider>
 
-        <StatusBar style="auto" backgroundColor={DefaultTheme.colors.primary} />
+          <StatusBar style="dark" backgroundColor={Colors.primary} />
 
-        <StickyFooterAd />
-      </ThemeProvider>
-    </AdsContextProvider>
+          <StickyFooterAd />
+        </ThemeProvider>
+      </AdsContextProvider>
+    </SafeAreaView>
   );
 }

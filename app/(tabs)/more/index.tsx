@@ -79,7 +79,7 @@ export default function MoreIndex() {
         style={[
           { paddingHorizontal: 8 },
           Platform.OS === "ios" && { marginBottom: 48 },
-          Platform.OS === "android" && { marginBottom: 24 },
+          Platform.OS === "android" && { marginBottom: 0 },
         ]}
       >
         <ShopCtaCard />
@@ -92,7 +92,7 @@ export default function MoreIndex() {
           ))}
         </Card>
 
-        <Card style={{ padding: 0, gap: 0 }}>
+        <Card style={{ padding: 0, gap: 0, marginBottom: 16 }}>
           {socialLinks.map((link) => (
             <ListItem key={link.label} {...link} />
           ))}
