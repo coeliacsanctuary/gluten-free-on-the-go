@@ -48,6 +48,8 @@ export default function Explore({ setTitle }: ExploreProps) {
   const handleSearch = () => {
     if (search.length < 3) {
       setSearchValid(false);
+
+      return;
     }
 
     setLoading(true);

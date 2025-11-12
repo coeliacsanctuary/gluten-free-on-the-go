@@ -78,11 +78,6 @@ export default function Sidebar({
           backgroundColor: withOpacity(Colors.text, 0.8),
         }}
       >
-        <Pressable
-          style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}
-          onPress={onClose}
-        />
-
         <SafeAreaView
           edges={["bottom"]}
           style={{
@@ -91,11 +86,13 @@ export default function Sidebar({
           }}
         >
           <Animated.View
+            pointerEvents="box-none"
             style={[
               {
                 position: "absolute",
                 top: insets.top,
-                bottom: insets.bottom,
+                bottom: 0,
+                paddingBottom: insets.bottom,
                 width: extraWide ? "90%" : "80%",
                 backgroundColor: backgroundColor,
                 transform: [{ translateX: translate }],
@@ -125,6 +122,20 @@ export default function Sidebar({
             {children}
           </Animated.View>
         </SafeAreaView>
+
+        <Pressable
+          onPress={onClose}
+          style={[
+            {
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              backgroundColor: "transparent",
+            },
+            side === "right" && { left: 0, right: extraWide ? "90%" : "80%" },
+            side === "left" && { right: 0, left: extraWide ? "90%" : "80%" },
+          ]}
+        />
       </View>
     </DefaultModal>
   );
