@@ -11,7 +11,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "buildNumber": "39004",
+      "buildNumber": "39006",
       "supportsTablet": false,
       "bundleIdentifier": "com.coeliacsanctuary.onthego",
       "googleServicesFile": "./GoogleService-Info.plist",
@@ -26,7 +26,7 @@
       }
     },
     "android": {
-      "versionCode": 39004,
+      "versionCode": 39006,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#80ccfc"

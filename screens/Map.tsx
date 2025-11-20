@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Marker, Region } from "react-native-maps";
+import { Camera, Marker, Region } from "react-native-maps";
 import MapView from "react-native-map-clustering";
 import { Dimensions, Platform, View } from "react-native";
 import { Colors } from "@/constants/Colors";
@@ -245,15 +245,29 @@ export default function Map({
       return;
     }
 
+    let responseLatLng: LatLng | undefined = undefined;
+
     postGeocodeRequest(initialSearch)
       .then((response) => {
         setLatLng(response.data.data);
+        responseLatLng = response.data.data;
       })
       .catch(() => {
         //
       })
       .finally(() => {
         setLoading(false);
+
+        setTimeout(() => {
+          map.current?.getCamera()?.then((camera: Camera) => {
+            if (
+              responseLatLng &&
+              camera.center.latitude !== responseLatLng.lat
+            ) {
+              navigateToLocation(responseLatLng.lat, responseLatLng.lng);
+            }
+          });
+        }, 500);
       });
   }, [initialSearch]);
 

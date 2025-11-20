@@ -201,7 +201,7 @@ export default function RecommendAPlace() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "padding"}
       style={{
         flex: 1,
         justifyContent: "center",
