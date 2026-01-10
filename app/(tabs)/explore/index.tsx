@@ -7,7 +7,7 @@ import { logScreen } from "@/services/analytics";
 export default function ExploreEateries() {
   logScreen("explore");
 
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>("Search Eateries");
 
   return (
     <ScreenWrapper>

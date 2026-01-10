@@ -82,6 +82,10 @@ export default function Map({
     shouldCheck: initialSearch === "",
   });
 
+  const [highlightedLatLng, setHighlightedLatLng] = useState<
+    LatLng | undefined
+  >(undefined);
+
   const moveMapTimeout = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
@@ -105,6 +109,8 @@ export default function Map({
 
     postGeocodeRequest(search)
       .then((response) => {
+        setHighlightedLatLng(response.data.data);
+
         navigateToLocation(response.data.data.lat, response.data.data.lng);
       })
       .catch(() => {
@@ -172,7 +178,7 @@ export default function Map({
 
     newMarkers.forEach((newMarker) => {
       const existingMarker = currentMarkers.find(
-        (marker) => marker.id === newMarker.id,
+        (marker) => marker.key === newMarker.key,
       );
 
       if (existingMarker) {
@@ -249,6 +255,7 @@ export default function Map({
 
     postGeocodeRequest(initialSearch)
       .then((response) => {
+        setHighlightedLatLng(response.data.data);
         setLatLng(response.data.data);
         responseLatLng = response.data.data;
       })
@@ -273,7 +280,10 @@ export default function Map({
 
   useEffect(() => {
     if (initialAppliedFilters) {
-      setAppliedFilters(initialAppliedFilters);
+      setTimeout(() => {
+        setAppliedFilters(initialAppliedFilters);
+        setTriggerSearch(true);
+      }, 300);
     }
   }, [initialAppliedFilters]);
 
@@ -340,6 +350,7 @@ export default function Map({
               value={search}
               onChangeText={(text) => setSearch(text)}
               onEndEditing={() => handleSearch()}
+              onIconPress={() => handleSearch()}
             />
 
             <Button
@@ -382,6 +393,21 @@ export default function Map({
             maxZoom={15}
             toolbarEnabled={false}
           >
+            {!!highlightedLatLng && (
+              <Marker
+                key="index"
+                identifier="index"
+                coordinate={{
+                  latitude: highlightedLatLng.lat,
+                  longitude: highlightedLatLng.lng,
+                }}
+                stopPropagation={false}
+                tracksViewChanges={false}
+                cluster={false}
+                zIndex={999}
+              />
+            )}
+
             {markers.map((marker) => {
               try {
                 return (
@@ -404,8 +430,8 @@ export default function Map({
                     <CustomIcon
                       name="marker"
                       fill={marker.color}
-                      width={40}
-                      height={40}
+                      width={60}
+                      height={60}
                     />
                   </Marker>
                 );

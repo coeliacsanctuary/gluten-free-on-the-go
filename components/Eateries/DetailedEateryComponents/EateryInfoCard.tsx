@@ -64,7 +64,12 @@ export default function EateryInfoCard({
           {eatery.features.map((feature) => (
             <View
               key={feature.slug}
-              style={{ flexDirection: "row", gap: 2, alignItems: "center" }}
+              style={{
+                flexDirection: "row",
+                gap: 2,
+                alignItems: "center",
+                flexShrink: 1,
+              }}
             >
               <CustomIcon
                 name={feature.slug}

@@ -11,14 +11,15 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "buildNumber": "39006",
+      "buildNumber": "39011",
       "supportsTablet": false,
       "bundleIdentifier": "com.coeliacsanctuary.onthego",
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "We use your location to find places to eat around you.",
         "NSPhotoLibraryUsageDescription": "So you can upload photos when reviewing locations",
-        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "config": {
         "googleMapsApiKey": "AIzaSyAm-VlmF6ZqCHd4Nm5OvGbQ52bevyUG98s",
@@ -26,7 +27,7 @@
       }
     },
     "android": {
-      "versionCode": 39006,
+      "versionCode": 39011,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#80ccfc"

@@ -1,5 +1,5 @@
 import { DetailedEatery as DetailedEateryType } from "@/types/eateries";
-import { Platform, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import EateryHelpImproveCard from "@/components/Eateries/DetailedEateryComponents/EateryHelpImproveCard";
 import EateryInfoCard from "@/components/Eateries/DetailedEateryComponents/EateryInfoCard";
 import EateryLocationCard from "@/components/Eateries/DetailedEateryComponents/EateryLocationCard";
@@ -8,7 +8,15 @@ import EateryIntroCard from "@/components/Eateries/DetailedEateryComponents/Eate
 import EateryAdminReviewCard from "@/components/Eateries/DetailedEateryComponents/EateryAdminReviewCard";
 import EateryVisitorImagesCard from "@/components/Eateries/DetailedEateryComponents/EateryVisitorImagesCard";
 import EateryVisitorReviewsCard from "@/components/Eateries/DetailedEateryComponents/EateryVisitorReviewsCard";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { EateryModalsProvider } from "@/context/eateryModalContext";
 import EateryDynamicMapModal from "@/modals/EateryDynamicMapModal";
 import EateryOpeningTimesModal from "@/modals/EateryOpeningTimesModal";
@@ -26,6 +34,7 @@ export type DetailedEateryProps = {
   sidebarOpen: boolean;
   setSidebarOpen: Dispatch<SetStateAction<boolean>>;
   leaveReview?: string;
+  scrollView: RefObject<ScrollView>;
 };
 
 export default function DetailedEatery({
@@ -34,6 +43,7 @@ export default function DetailedEatery({
   sidebarOpen,
   setSidebarOpen,
   leaveReview,
+  scrollView,
 }: DetailedEateryProps) {
   const [showAllReviews, setShowAllReviews] = useState<boolean>(false);
 
@@ -58,6 +68,18 @@ export default function DetailedEatery({
     edit: setSuggestEditsModal,
     report: setReportEateryModal,
     review: setShowReviewEateryModal,
+  };
+
+  const reviewCard = useRef<View>(null);
+
+  const scrollToReviews = () => {
+    reviewCard.current?.measureLayout(
+      scrollView.current,
+      (x, y) => {
+        scrollView.current.scrollTo({ y, animated: true });
+      },
+      () => {},
+    );
   };
 
   return (
@@ -97,11 +119,15 @@ export default function DetailedEatery({
           Platform.OS === "android" && { marginBottom: 12 },
         ]}
       >
-        <EateryIntroCard eatery={eatery} eateryName={eateryName} />
+        <EateryInfoCard eatery={eatery} eateryName={eateryName} />
+
+        <EateryIntroCard
+          eatery={eatery}
+          eateryName={eateryName}
+          onReviewPress={scrollToReviews}
+        />
 
         <EateryHelpImproveCard eateryName={eateryName} />
-
-        <EateryInfoCard eatery={eatery} eateryName={eateryName} />
 
         {(!eatery.is_nationwide || eatery.branch !== null) && (
           <EateryLocationCard eatery={eatery} eateryName={eateryName} />
@@ -132,6 +158,7 @@ export default function DetailedEatery({
           eateryName={eateryName}
           showAllReviews={showAllReviews}
           setShowAllReviews={setShowAllReviews}
+          ref={reviewCard}
         />
       </View>
 

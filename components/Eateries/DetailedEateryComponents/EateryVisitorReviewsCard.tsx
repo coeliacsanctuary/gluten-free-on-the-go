@@ -1,7 +1,13 @@
 import { DetailedEatery, EateryRating, EateryReview } from "@/types/eateries";
-import { Pressable, Text, View } from "react-native";
-import { Card } from "@/components/Card";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Pressable, Text, View, ViewProps } from "react-native";
+import { Card, CardProps } from "@/components/Card";
+import {
+  Dispatch,
+  forwardRef,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Colors } from "@/constants/Colors";
 import { pluralise, withOpacity } from "@/helpers/helpers";
 import StarRating from "@/components/Eateries/StarRating";
@@ -12,19 +18,17 @@ import { Checkbox } from "expo-checkbox";
 import EateryReviewCard from "@/components/Eateries/EateryReviewCard";
 import { useEateryModals } from "@/context/eateryModalContext";
 
-export type EateryVisitorReviewsCardPropsProps = {
+export type EateryVisitorReviewsCardPropsProps = ViewProps & {
   eatery: DetailedEatery;
   eateryName: string;
   showAllReviews: boolean;
   setShowAllReviews: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function EateryVisitorReviewsCard({
-  eatery,
-  eateryName,
-  showAllReviews,
-  setShowAllReviews,
-}: EateryVisitorReviewsCardPropsProps) {
+export const EateryVisitorReviewsCard = forwardRef<
+  View,
+  EateryVisitorReviewsCardPropsProps
+>(({ eatery, eateryName, showAllReviews, setShowAllReviews, ...rest }, ref) => {
   const [loading, setLoading] = useState(true);
 
   const [average, setAverage] = useState<EateryRating>("0");
@@ -90,7 +94,7 @@ export default function EateryVisitorReviewsCard({
   const eateryModals = useEateryModals();
 
   return (
-    <Card>
+    <Card ref={ref} {...rest}>
       <Text style={{ fontWeight: "600", fontSize: 16 }}>
         Visitor reviews from {eateryName}
       </Text>
@@ -225,7 +229,10 @@ export default function EateryVisitorReviewsCard({
       )}
     </Card>
   );
-}
+});
+
+EateryVisitorReviewsCard.displayName = "EateryVisitorReviewsCard";
+export default EateryVisitorReviewsCard;
 
 function RatingsBreakdown({
   filterableRatings,

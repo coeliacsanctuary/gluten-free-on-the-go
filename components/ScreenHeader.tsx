@@ -4,6 +4,7 @@ import { DefaultTheme } from "@/constants/DefaultTheme";
 import { IconSymbol } from "@/components/Ui/IconSymbol";
 import { router } from "expo-router";
 import { logEvent } from "@/services/analytics";
+import { moderateScale } from "react-native-size-matters";
 
 export type ScreenHeaderProps = ViewProps & {
   showBackButton?: boolean;
@@ -60,20 +61,22 @@ export function ScreenHeader({
               router.back();
             }}
           >
-            <IconSymbol name="chevron.backward" color={Colors.text} size={18} />
+            <IconSymbol
+              name="chevron.backward"
+              color={Colors.text}
+              size={Platform.OS === "android" ? 26 : 18}
+            />
           </Pressable>
         )}
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={[
-            {
-              color: Colors.text,
-              fontWeight: "600",
-              lineHeight: 32,
-            },
-            Platform.OS === "ios" && { fontSize: 18 },
-          ]}
+          style={{
+            color: Colors.text,
+            fontWeight: "600",
+            lineHeight: moderateScale(24),
+            fontSize: moderateScale(16, 0.25),
+          }}
         >
           {children}
         </Text>

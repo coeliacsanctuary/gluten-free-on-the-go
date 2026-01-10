@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { router, Tabs, Href } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
 import { HapticTab } from "@/components/HapticTab";
@@ -14,6 +14,37 @@ export default function TabLayout() {
   return (
     <Tabs
       initialRouteName="nearby"
+      screenListeners={{
+        tabPress: (e) => {
+          const routeBits = e.target?.split("-");
+
+          if (!routeBits) {
+            return;
+          }
+
+          let found = false;
+
+          while (!found) {
+            if (routeBits[routeBits.length - 1].match(/\d+/)) {
+              routeBits.pop();
+            } else {
+              found = true;
+            }
+          }
+
+          const routeName = routeBits.join("-");
+
+          if (!routeName) {
+            return;
+          }
+
+          console.log({ routeName });
+
+          e.preventDefault();
+
+          router.replace(`/(tabs)/${routeName}` as Href);
+        },
+      }}
       screenOptions={{
         tabBarActiveTintColor: Colors.tint,
         headerShown: false,

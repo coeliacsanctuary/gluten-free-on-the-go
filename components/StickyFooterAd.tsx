@@ -18,7 +18,7 @@ export function StickyFooterAd() {
   return (
     <BannerAd
       unitId={adId(IOS_BANNER_AD, ANDROID_BANNER_AD, TestIds.BANNER)}
-      size={BannerAdSize.BANNER}
+      size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
     />
   );
 }

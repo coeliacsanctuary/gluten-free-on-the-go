@@ -37,7 +37,7 @@ export default function EateryCard({ eatery, basePath }: EateryCardProps) {
               {eatery.title}
             </Text>
 
-            {eatery.distance && eatery.distance > 0 && (
+            {!!eatery.distance && eatery.distance > 0 && (
               <Text>{eatery.distance.toFixed(2)} miles away</Text>
             )}
           </View>
@@ -56,6 +56,12 @@ export default function EateryCard({ eatery, basePath }: EateryCardProps) {
           )}
 
           <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
+            {eatery.is_fully_gf && (
+              <Pill theme="secondary" bold>
+                100% GF
+              </Pill>
+            )}
+
             <Pill>{eatery.venueType}</Pill>
 
             {eatery.type === "Eatery" && <Pill>{eatery.cuisine}</Pill>}

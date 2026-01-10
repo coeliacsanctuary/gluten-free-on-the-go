@@ -20,6 +20,7 @@ export type ModalProps = Omit<DefaultModalProps, "visible"> & {
   width?: DimensionValue;
   fullHeight?: boolean;
   closeIconColour?: string;
+  avoidKeyboard?: boolean;
 };
 
 export default function Modal({
@@ -32,8 +33,11 @@ export default function Modal({
   width = "90%",
   fullHeight = false,
   closeIconColour = Colors.text,
+  avoidKeyboard = false,
   ...rest
 }: ModalProps) {
+  const Wrapper = avoidKeyboard ? View : KeyboardAvoidingView;
+
   return (
     <DefaultModal
       visible={open}
@@ -42,8 +46,10 @@ export default function Modal({
       onRequestClose={() => onClose()}
       {...rest}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      <Wrapper
+        {...(!avoidKeyboard && {
+          behavior: Platform.OS === "ios" ? "padding" : undefined,
+        })}
         style={{
           flex: 1,
           justifyContent: "center",
@@ -122,7 +128,7 @@ export default function Modal({
             {children}
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </Wrapper>
     </DefaultModal>
   );
 }

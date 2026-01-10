@@ -178,7 +178,7 @@ export default function MoreIndex() {
           </Card>
 
           <Text style={{ fontSize: 12 }}>
-            App Version {APP_VERSION}, published 21st November 2025
+            App Version {APP_VERSION}, published 10th January 2026
           </Text>
         </View>
       </ScrollView>

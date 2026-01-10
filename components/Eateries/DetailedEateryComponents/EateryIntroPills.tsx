@@ -3,9 +3,15 @@ import { Linking, View, Text } from "react-native";
 import Pill from "@/components/Pill";
 import { useEateryModals } from "@/context/eateryModalContext";
 
-export type EateryIntroPillsProps = { eatery: DetailedEatery };
+export type EateryIntroPillsProps = {
+  eatery: DetailedEatery;
+  onReviewPress?: () => void;
+};
 
-export default function EateryIntroPills({ eatery }: EateryIntroPillsProps) {
+export default function EateryIntroPills({
+  eatery,
+  onReviewPress,
+}: EateryIntroPillsProps) {
   const eateryModals = useEateryModals();
 
   return (
@@ -53,12 +59,12 @@ export default function EateryIntroPills({ eatery }: EateryIntroPillsProps) {
       )}
 
       {!!eatery.reviews.expense && (
-        <Pill icon="wallet.bifold" bold>
+        <Pill clickHandler={onReviewPress} icon="wallet.bifold" bold>
           {`${"£".repeat(eatery.reviews.expense.value)} - ${eatery.reviews.expense.label}`}
         </Pill>
       )}
 
-      {!!eatery.opening_times && eatery.opening_times.is_open_now && (
+      {!!eatery.opening_times && (
         <Pill
           icon="clock"
           bold

@@ -38,6 +38,7 @@ export type SimpleEatery = BaseEatery & {
   distance?: number;
   venueType: string;
   average_expense?: EateryAverageExpense;
+  is_fully_gf: boolean;
 };
 
 export type NearbyEatery = SimpleEatery & {};

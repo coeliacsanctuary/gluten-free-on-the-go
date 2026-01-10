@@ -1,6 +1,6 @@
 import Modal from "@/modals/Modal";
 import { View, Text, ScrollView } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import TextAreaField from "@/components/Form/TextAreaField";
 import Button from "@/components/Form/Button";
@@ -158,6 +158,8 @@ export default function EateryReviewEateryModal({
     };
   };
 
+  const scrollRef = useRef<KeyboardAwareScrollView>(null);
+
   return (
     <Modal
       open={open}
@@ -170,13 +172,13 @@ export default function EateryReviewEateryModal({
     >
       <KeyboardAwareScrollView
         enableOnAndroid
-        extraScrollHeight={150}
         keyboardShouldPersistTaps="handled"
+        ref={scrollRef}
         contentContainerStyle={{
           paddingBottom: 80,
         }}
       >
-        <ScrollView style={{ width: "100%", height: "100%", padding: 16 }}>
+        <View style={{ width: "100%", padding: 16 }}>
           <View style={{ gap: 16 }}>
             {hasSubmitted ? (
               <>
@@ -272,6 +274,9 @@ export default function EateryReviewEateryModal({
                     value={review}
                     onChangeText={setReview}
                     maxLength={1500}
+                    onFocus={(e) =>
+                      scrollRef.current?.scrollToFocusedInput(e.target, 100)
+                    }
                     required
                   />
                   <Text
@@ -330,7 +335,7 @@ export default function EateryReviewEateryModal({
               </>
             )}
           </View>
-        </ScrollView>
+        </View>
       </KeyboardAwareScrollView>
     </Modal>
   );

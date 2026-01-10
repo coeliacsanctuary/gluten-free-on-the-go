@@ -1,4 +1,6 @@
+import React, { forwardRef } from "react";
 import {
+  Pressable,
   TextInput as DefaultTextInput,
   TextInputProps,
   View,
@@ -7,7 +9,6 @@ import {
 import { Colors } from "@/constants/Colors";
 import { withOpacity } from "@/helpers/helpers";
 import Label from "@/components/Form/Label";
-import React from "react";
 import { IconSymbol, IconSymbolName } from "@/components/Ui/IconSymbol";
 
 export type TexInputFieldProps = Omit<
@@ -18,59 +19,68 @@ export type TexInputFieldProps = Omit<
   required?: boolean;
   iconSuffix?: IconSymbolName;
   style?: ViewProps["style"];
+  onIconPress?: () => void;
 };
 
-export default function TexInputField({
-  style,
-  label = undefined,
-  required = false,
-  iconSuffix = undefined,
-  value,
-  ...props
-}: TexInputFieldProps) {
-  let inputComponent = (
-    <View
-      style={[
-        {
-          borderColor: withOpacity(Colors.text, 0.1),
-          borderRadius: 4,
-          borderWidth: 1,
-          alignItems: "center",
-          flexDirection: "row",
-        },
-        style,
-      ]}
-    >
-      <DefaultTextInput
+const TexInputField = forwardRef<DefaultTextInput, TexInputFieldProps>(
+  (
+    {
+      style,
+      label,
+      required = false,
+      iconSuffix,
+      value,
+      onIconPress = () => undefined,
+      ...props
+    },
+    ref,
+  ) => {
+    const input = (
+      <View
         style={[
           {
-            padding: 8,
-            flex: 1,
+            borderColor: withOpacity(Colors.text, 0.1),
+            borderRadius: 4,
+            borderWidth: 1,
+            alignItems: "center",
+            flexDirection: "row",
           },
+          style,
         ]}
-        editable
-        value={value}
-        {...props}
-      />
-
-      {!!iconSuffix && (
-        <IconSymbol
-          name={iconSuffix}
-          color={!!value ? Colors.text : withOpacity(Colors.text, 0.3)}
-          style={{ marginRight: 8 }}
-          size={24}
+      >
+        <DefaultTextInput
+          ref={ref}
+          style={{ padding: 8, flex: 1 }}
+          editable
+          value={value}
+          {...props}
         />
-      )}
-    </View>
-  );
 
-  if (label) {
-    return (
-      <Label label={label} required={required}>
-        {inputComponent}
-      </Label>
+        {!!iconSuffix && (
+          <Pressable onPress={onIconPress}>
+            <IconSymbol
+              name={iconSuffix}
+              color={value ? Colors.text : withOpacity(Colors.text, 0.3)}
+              style={{ marginRight: 8 }}
+              size={24}
+            />
+          </Pressable>
+        )}
+      </View>
     );
-  }
 
-  return inputComponent;
-}
+    if (label) {
+      return (
+        <Label label={label} required={required}>
+          {input}
+        </Label>
+      );
+    }
+
+    return input;
+  },
+);
+
+TexInputField.displayName = "TexInputField";
+
+export default TexInputField;

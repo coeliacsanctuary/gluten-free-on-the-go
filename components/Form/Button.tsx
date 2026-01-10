@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { withOpacity } from "@/helpers/helpers";
+import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 
 export type ButtonProps = ViewProps & {
   theme?: "primary" | "primaryLight" | "secondary";
@@ -19,6 +20,7 @@ export type ButtonProps = ViewProps & {
   clickHandler?: () => void;
   clickAttemptHandler?: () => void;
   textStyle?: TextProps["style"];
+  buttonWidth?: DimensionValue;
 };
 
 export default function Button({
@@ -29,13 +31,14 @@ export default function Button({
   loading = false,
   clickHandler = () => undefined,
   clickAttemptHandler = () => undefined,
+  buttonWidth = "auto",
   style,
   textStyle = undefined,
   children,
 }: ButtonProps) {
   const buttonStyles = StyleSheet.create({
     button: {
-      width: "auto",
+      width: buttonWidth,
       alignItems: "center",
       position: "relative",
     },

@@ -2,7 +2,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScreenWrapper } from "@/components/Ui/ScreenWrapper";
 import { Platform, ScrollView } from "react-native";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { LoaderCard } from "@/components/LoaderCard";
 import { DetailedEatery as DetailedEateryType } from "@/types/eateries";
 import { getEateryDetailsRequest } from "@/requests/eateryDetails";
@@ -77,6 +77,8 @@ export default function EateryDetails() {
     }, [showAd]),
   );
 
+  const scrollView = useRef<ScrollView>(null);
+
   return (
     <ScreenWrapper>
       <ScreenHeader
@@ -95,6 +97,7 @@ export default function EateryDetails() {
             Platform.OS === "ios" && { marginBottom: 24 },
             Platform.OS === "android" && { marginBottom: 0 },
           ]}
+          ref={scrollView}
         >
           <DetailedEatery
             eatery={eatery}
@@ -102,6 +105,7 @@ export default function EateryDetails() {
             leaveReview={leaveReview}
             sidebarOpen={sidebarOpen}
             setSidebarOpen={setSidebarOpen}
+            scrollView={scrollView}
           />
         </ScrollView>
       )}

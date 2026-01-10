@@ -94,13 +94,31 @@ export default function ExploreEateriesFilterSidebar({
           }}
         >
           <Text style={{ fontSize: 20, fontWeight: 600 }}>Filter Eateries</Text>
-          <Button
-            disabled={!isFiltered()}
-            size="small"
-            clickHandler={() => resetFilters()}
+
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 8,
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
           >
-            Reset
-          </Button>
+            <Button
+              disabled={!isFiltered()}
+              size="xs"
+              clickHandler={() => resetFilters()}
+              theme="secondary"
+            >
+              Reset
+            </Button>
+            <Button
+              disabled={!isFiltered()}
+              size="xs"
+              clickHandler={() => onClose()}
+            >
+              Apply
+            </Button>
+          </View>
         </View>
 
         <ScrollView>

@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { LoaderCard } from "@/components/LoaderCard";
 import { Card } from "@/components/Card";
 import {
@@ -7,7 +13,13 @@ import {
   NearbyEatery,
 } from "@/types/eateries";
 import EateryCard from "@/components/Eateries/EateryCard";
-import { ActivityIndicator, FlatList, View, Text } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  View,
+  Text,
+  TextInput,
+} from "react-native";
 import { Colors } from "@/constants/Colors";
 import TexInputField from "@/components/Form/TextInputField";
 import Button from "@/components/Form/Button";
@@ -164,6 +176,8 @@ export default function Explore({ setTitle }: ExploreProps) {
     setTriggerSearch(true);
   }, [showFilterSidebar]);
 
+  const searchRef = useRef<TextInput>();
+
   return (
     <>
       <View
@@ -182,6 +196,8 @@ export default function Explore({ setTitle }: ExploreProps) {
           value={search}
           onChangeText={(text) => setSearch(text)}
           onEndEditing={() => handleSearch()}
+          onIconPress={() => handleSearch()}
+          ref={searchRef}
         />
 
         <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
@@ -245,11 +261,24 @@ export default function Explore({ setTitle }: ExploreProps) {
                     </Text>
                   )}
 
-                  <Button
-                    clickHandler={() => router.navigate("/(tabs)/explore/map")}
-                  >
-                    Map
-                  </Button>
+                  <View style={{ alignItems: "center", gap: 8 }}>
+                    <Button
+                      clickHandler={() => searchRef.current?.focus()}
+                      buttonWidth="100%"
+                    >
+                      Search for places
+                    </Button>
+                    <Text>or</Text>
+                    <Button
+                      clickHandler={() =>
+                        router.navigate("/(tabs)/explore/map")
+                      }
+                      theme="secondary"
+                      buttonWidth="100%"
+                    >
+                      Browse the Map
+                    </Button>
+                  </View>
                 </View>
               </Card>
             )}
