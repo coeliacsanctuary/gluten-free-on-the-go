@@ -4,6 +4,9 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import NearbyPlaces from "@/screens/NearbyPlaces";
 import { Text, View } from "react-native";
 import { logScreen } from "@/services/analytics";
+import { Warning } from "@/components/Warning";
+import React from "react";
+import EateryWarningComponent from "@/components/EateryWarningComponent";
 
 export default function NearbyEateries() {
   logScreen("nearby-places");
@@ -15,7 +18,7 @@ export default function NearbyEateries() {
         ListHeaderComponent={
           <>
             <View>
-              <Card>
+              <Card style={{ marginBottom: 8 }}>
                 <Text>
                   Thanks for using our Gluten Free On the Go app, our app
                   connects to the eating out guide on the Coeliac Sanctuary
@@ -24,15 +27,9 @@ export default function NearbyEateries() {
                   Ireland to plan your next trip to the seaside, or your next
                   city break!
                 </Text>
-
-                <Text>
-                  All of the places on Coeliac Sanctuary are recommended to us
-                  by other people and are checked before they are added to our
-                  app and website, but if you have a bad experience at a
-                  location on our app, or if it no longer exists you can easily
-                  report it to us through the app.
-                </Text>
               </Card>
+
+              <EateryWarningComponent />
             </View>
 
             <Text

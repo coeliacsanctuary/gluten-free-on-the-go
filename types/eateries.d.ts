@@ -202,6 +202,8 @@ export type AppliedEateryFilters = {
   feature: string[];
 };
 
+export type EaterySortKey = "distance" | "rating" | "alphabetical";
+
 export type BrowseEateryResource = {
   id: number;
   branchId?: number;

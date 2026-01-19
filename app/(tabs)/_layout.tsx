@@ -1,4 +1,4 @@
-import { router, Tabs, Href } from "expo-router";
+import { Href, router, Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
 import { HapticTab } from "@/components/HapticTab";
@@ -16,29 +16,15 @@ export default function TabLayout() {
       initialRouteName="nearby"
       screenListeners={{
         tabPress: (e) => {
-          const routeBits = e.target?.split("-");
-
-          if (!routeBits) {
-            return;
-          }
-
-          let found = false;
-
-          while (!found) {
-            if (routeBits[routeBits.length - 1].match(/\d+/)) {
-              routeBits.pop();
-            } else {
-              found = true;
-            }
-          }
-
-          const routeName = routeBits.join("-");
+          let routeName = e.target?.split("-")[0];
 
           if (!routeName) {
             return;
           }
 
-          console.log({ routeName });
+          if (routeName === "recommend") {
+            routeName = "recommend-a-place";
+          }
 
           e.preventDefault();
 
