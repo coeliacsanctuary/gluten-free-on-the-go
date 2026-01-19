@@ -53,7 +53,7 @@ export function Warning({
       )}
 
       <View style={{ flex: 1, flexShrink: 1, flexWrap: "wrap" }}>
-        {children}
+        <View style={{ width: "100%" }}>{children}</View>
       </View>
     </View>
   );

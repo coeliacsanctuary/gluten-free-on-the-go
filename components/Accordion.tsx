@@ -16,6 +16,8 @@ export type AccordionProps = {
   headerLabelStyles?: TextProps["style"];
   headerChevronColor?: string;
   innerBackgroundStyles?: ViewProps["style"];
+  iconSize?: number;
+  backgroundColor?: string;
 };
 
 export function Accordion({
@@ -25,6 +27,8 @@ export function Accordion({
   headerLabelStyles,
   headerChevronColor = Colors.text,
   innerBackgroundStyles,
+  backgroundColor = Colors.background,
+  iconSize = 18,
 }: AccordionProps) {
   const [open, setOpen] = useState(false);
 
@@ -34,7 +38,7 @@ export function Accordion({
         {
           borderRadius: 8,
           padding: 8,
-          backgroundColor: Colors.background,
+          backgroundColor,
         },
         wrapperStyles,
       ]}
@@ -54,7 +58,7 @@ export function Accordion({
 
           <IconSymbol
             name="chevron.down"
-            size={18}
+            size={iconSize}
             color={headerChevronColor}
             style={{ transform: [{ rotate: open ? "180deg" : "0deg" }] }}
           />

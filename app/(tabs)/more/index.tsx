@@ -29,6 +29,11 @@ export default function MoreIndex() {
       clickHandler: () => router.navigate("(tabs)/more/about"),
     },
     {
+      label: "FAQ",
+      icon: "questionmark.circle",
+      clickHandler: () => router.navigate("(tabs)/more/faq"),
+    },
+    {
       label: "Contact",
       icon: "envelope.circle",
       clickHandler: () => Linking.openURL(baseUrl + "/contact"),

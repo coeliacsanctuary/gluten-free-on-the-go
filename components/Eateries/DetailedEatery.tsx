@@ -27,6 +27,7 @@ import EateryReviewEateryModal from "@/modals/EateryReviewModal";
 import EateryDetailsMenuSidebar from "@/sidebars/EateryDetailsMenuSidebar";
 import EateryBranchListCard from "@/components/Eateries/DetailedEateryComponents/EateryBranchListCard";
 import EateryDetailsNationwideBranchesSidebar from "@/sidebars/EateryDetailsNationwideBranchesSidebar";
+import EateryWarningComponent from "@/components/EateryWarningComponent";
 
 export type DetailedEateryProps = {
   eatery: DetailedEateryType;
@@ -128,6 +129,8 @@ export default function DetailedEatery({
         />
 
         <EateryHelpImproveCard eateryName={eateryName} />
+
+        <EateryWarningComponent faded />
 
         {(!eatery.is_nationwide || eatery.branch !== null) && (
           <EateryLocationCard eatery={eatery} eateryName={eateryName} />

@@ -10,6 +10,7 @@ import { Card } from "@/components/Card";
 import {
   AppliedEateryFilters,
   EateryFilters,
+  EaterySortKey,
   NearbyEatery,
 } from "@/types/eateries";
 import EateryCard from "@/components/Eateries/EateryCard";
@@ -29,6 +30,10 @@ import { router } from "expo-router";
 import { ShopCtaCard } from "@/components/ShopCtaCard";
 import { logEvent } from "@/services/analytics";
 import { AdCard } from "@/components/AdCard";
+import { SelectBoxOption } from "@/types/types";
+import SelectField from "@/components/Form/SelectField";
+import { Warning } from "@/components/Warning";
+import EateryWarningComponent from "@/components/EateryWarningComponent";
 
 export type ExploreProps = {
   setTitle: Dispatch<SetStateAction<string>>;
@@ -37,6 +42,12 @@ export type ExploreProps = {
 export default function Explore({ setTitle }: ExploreProps) {
   const [search, setSearch] = useState<string>("");
   const [searchValid, setSearchValid] = useState<boolean>(true);
+
+  const [sort, setSort] = useState<EaterySortKey>("distance");
+  const [activeSort, setActiveSort] = useState<EaterySortKey>("distance");
+  const [sortOptions, setSortOptions] = useState<
+    SelectBoxOption<string, string>[]
+  >([]);
 
   const [showFilterSidebar, setShowFilterSidebar] = useState<boolean>(false);
 
@@ -97,7 +108,7 @@ export default function Explore({ setTitle }: ExploreProps) {
   }, [triggerSearch]);
 
   const getPlaces = () => {
-    getExplorePlacesRequest(search, currentPage, appliedFilters).then(
+    getExplorePlacesRequest(search, currentPage, appliedFilters, sort).then(
       (response) => {
         setPlaces(
           currentPage === 1
@@ -111,6 +122,10 @@ export default function Explore({ setTitle }: ExploreProps) {
 
           return;
         }
+
+        setSort(response.data.data.sort.current);
+        setActiveSort(response.data.data.sort.current);
+        setSortOptions(response.data.data.sort.options);
 
         if (filters === undefined) {
           setFilters(response.data.data.filters);
@@ -176,6 +191,14 @@ export default function Explore({ setTitle }: ExploreProps) {
     setTriggerSearch(true);
   }, [showFilterSidebar]);
 
+  useEffect(() => {
+    if (search.length < 3) {
+      return;
+    }
+
+    handleSearch();
+  }, [sort]);
+
   const searchRef = useRef<TextInput>();
 
   return (
@@ -229,6 +252,7 @@ export default function Explore({ setTitle }: ExploreProps) {
       </View>
 
       <FlatList
+        ListHeaderComponentStyle={{ zIndex: 10 }}
         ListHeaderComponent={
           <View style={{ gap: 16 }}>
             {!loading && places.length === 0 && !error && (
@@ -303,6 +327,25 @@ export default function Explore({ setTitle }: ExploreProps) {
                   {error}
                 </Text>
               </Card>
+            )}
+
+            {places.length > 0 && (
+              <>
+                <EateryWarningComponent />
+
+                <Card style={{}}>
+                  <Text>Showing eateries in {activeSort} order</Text>
+
+                  <SelectField
+                    setValue={setSort}
+                    label="Sort by"
+                    value={sort}
+                    options={sortOptions}
+                    size="small"
+                    labelContainerStyle={{ gap: 5 }}
+                  />
+                </Card>
+              </>
             )}
           </View>
         }

@@ -52,6 +52,7 @@ const MAPPING = {
   "slider.horizontal.3": "filter-list-alt",
   "exclamationmark.triangle.fill": "warning",
   "info.circle": "info-outline",
+  "questionmark.circle": "question-mark",
   "envelope.circle": "mail",
   link: "link",
   pencil: "edit",
