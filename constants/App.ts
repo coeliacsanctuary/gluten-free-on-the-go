@@ -1,4 +1,4 @@
-export const APP_VERSION = "4.0.0 Beta 4";
+export const APP_VERSION = "4.0.0 Beta 6";
 
 export const IOS_BANNER_AD = "ca-app-pub-1063051842575021/8005756608";
 export const IOS_FEED_AD = "ca-app-pub-1063051842575021/3681735492";

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Camera, Marker, Region } from "react-native-maps";
 import MapView from "react-native-map-clustering";
-import { Dimensions, Platform, View } from "react-native";
+import { Dimensions, Keyboard, Platform, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { LatLng } from "@/types/types";
 import { LoaderCard } from "@/components/LoaderCard";
@@ -101,6 +101,8 @@ export default function Map({
       alert("Please enter at least three characters to search...");
       return;
     }
+
+    Keyboard.dismiss();
 
     logEvent({
       type: "map-place-search",

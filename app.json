@@ -10,8 +10,11 @@
     "scheme": "coeliacsanctuaryglutenfreeonthego",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "androidStatusBar": {
+      "backgroundColor": "#80ccfc"
+    },
     "ios": {
-      "buildNumber": "39013",
+      "buildNumber": "39015",
       "supportsTablet": false,
       "bundleIdentifier": "com.coeliacsanctuary.onthego",
       "googleServicesFile": "./GoogleService-Info.plist",
@@ -27,7 +30,7 @@
       }
     },
     "android": {
-      "versionCode": 39013,
+      "versionCode": 39015,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#80ccfc"

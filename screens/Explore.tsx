@@ -17,9 +17,9 @@ import EateryCard from "@/components/Eateries/EateryCard";
 import {
   ActivityIndicator,
   FlatList,
-  View,
   Text,
   TextInput,
+  View,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import TexInputField from "@/components/Form/TextInputField";
@@ -32,7 +32,6 @@ import { logEvent } from "@/services/analytics";
 import { AdCard } from "@/components/AdCard";
 import { SelectBoxOption } from "@/types/types";
 import SelectField from "@/components/Form/SelectField";
-import { Warning } from "@/components/Warning";
 import EateryWarningComponent from "@/components/EateryWarningComponent";
 
 export type ExploreProps = {
@@ -59,6 +58,8 @@ export default function Explore({ setTitle }: ExploreProps) {
     venueType: [],
     feature: [],
   });
+
+  const [numberOfActiveFilters, setNumberOfActiveFilters] = useState<number>(0);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
@@ -196,8 +197,15 @@ export default function Explore({ setTitle }: ExploreProps) {
       return;
     }
 
-    handleSearch();
+    setLoading(true);
+    setPlaces([]);
+    setCurrentPage(1);
+    setTriggerSearch(true);
   }, [sort]);
+
+  useEffect(() => {
+    setNumberOfActiveFilters(Object.values(appliedFilters).flat().length);
+  }, [appliedFilters]);
 
   const searchRef = useRef<TextInput>();
 
@@ -230,7 +238,7 @@ export default function Explore({ setTitle }: ExploreProps) {
             disabled={!filters}
             clickHandler={() => setShowFilterSidebar(true)}
           >
-            Filter
+            Filter {numberOfActiveFilters > 0 && `(${numberOfActiveFilters})`}
           </Button>
 
           <Button

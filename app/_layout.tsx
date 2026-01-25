@@ -28,6 +28,7 @@ import { StickyFooterAd } from "@/components/StickyFooterAd";
 import { SessionProvider } from "@/context/sessionContext";
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Platform } from "react-native";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -57,20 +58,28 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
-      <AdsContextProvider>
-        <ThemeProvider value={DefaultTheme}>
-          <SessionProvider>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-          </SessionProvider>
+    <>
+      <SafeAreaView
+        edges={Platform.OS === "ios" ? ["top"] : undefined}
+        style={{
+          flex: 1,
+          backgroundColor: Colors.primaryLight,
+        }}
+      >
+        <StatusBar backgroundColor={Colors.primary} />
 
-          <StatusBar style="dark" backgroundColor={Colors.primary} />
+        <AdsContextProvider>
+          <ThemeProvider value={DefaultTheme}>
+            <SessionProvider>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              </Stack>
+            </SessionProvider>
 
-          <StickyFooterAd />
-        </ThemeProvider>
-      </AdsContextProvider>
-    </SafeAreaView>
+            <StickyFooterAd />
+          </ThemeProvider>
+        </AdsContextProvider>
+      </SafeAreaView>
+    </>
   );
 }
