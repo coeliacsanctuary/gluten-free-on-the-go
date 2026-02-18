@@ -71,6 +71,8 @@ export default function EateryCard({ eatery, basePath }: EateryCardProps) {
                 {`${"£".repeat(eatery.average_expense.value)} - ${eatery.average_expense.label}`}
               </Pill>
             )}
+
+            {!!eatery.branch_id && <Pill>Nationwide Chain</Pill>}
           </View>
         </Card>
       </Pressable>
