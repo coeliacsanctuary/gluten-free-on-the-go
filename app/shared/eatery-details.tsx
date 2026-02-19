@@ -11,6 +11,7 @@ import { logScreen } from "@/services/analytics";
 import { SessionContext } from "@/context/sessionContext";
 import { ANDROID_SCREEN_AD, IOS_SCREEN_AD } from "@/constants/App";
 import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { useStoreReview } from "@/hooks/useStoreReview";
 
 export default function EateryDetails() {
   const { id, branchId, leaveReview } = useLocalSearchParams<{
@@ -61,6 +62,8 @@ export default function EateryDetails() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const { triggerReviewCheck } = useStoreReview();
+
   const { showAd } = useInterstitialAd({
     iosAdId: IOS_SCREEN_AD,
     androidAdId: ANDROID_SCREEN_AD,
@@ -73,8 +76,9 @@ export default function EateryDetails() {
     useCallback(() => {
       return () => {
         showAd();
+        triggerReviewCheck();
       };
-    }, [showAd]),
+    }, [showAd, triggerReviewCheck]),
   );
 
   const scrollView = useRef<ScrollView>(null);

@@ -1,4 +1,5 @@
 import React, { createContext, useState, ReactNode } from "react";
+import { incrementLifetimeViews } from "@/services/storeReview";
 
 type SessionContextType = {
   eateryDetailsViewCount: number;
@@ -21,10 +22,12 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
 
   const incrementEateryDetailsViewCount = () => {
     setEateryDetailsViewCount((v) => v + 1);
+    incrementLifetimeViews();
   };
 
   const incrementMapSidebarViewCount = () => {
     setMapSidebarViewCount((v) => v + 1);
+    incrementLifetimeViews();
   };
 
   return (

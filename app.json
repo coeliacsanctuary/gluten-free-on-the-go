@@ -14,7 +14,7 @@
       "backgroundColor": "#80ccfc"
     },
     "ios": {
-      "buildNumber": "400000",
+      "buildNumber": "41000",
       "supportsTablet": false,
       "bundleIdentifier": "com.coeliacsanctuary.onthego",
       "googleServicesFile": "./GoogleService-Info.plist",
@@ -30,7 +30,7 @@
       }
     },
     "android": {
-      "versionCode": 400000,
+      "versionCode": 41000,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#80ccfc"
